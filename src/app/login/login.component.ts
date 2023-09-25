@@ -1,9 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ILogin, ILoginInfo } from './Ilogin'; 
-import { FormControl, FormGroup, Validators, } from '@angular/forms';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Component, ElementRef,  ViewChild } from '@angular/core';
+import { ILogin} from './Ilogin'; 
+import { FormControl} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import labels from '../labels/labels.json'
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { SpinnerService } from '../init/spinner.service';
@@ -81,7 +80,7 @@ enterUserName(){
        
           this.getAppLicense(response.data.wsid); 
           if(localStorage.getItem('LastRoute')){  
-              var url =   '/#'+localStorage.getItem('LastRoute');
+              let url =   '/#'+localStorage.getItem('LastRoute');
               window.location.href = url;
               window.location.reload();            
           } else {
@@ -107,7 +106,7 @@ enterUserName(){
 
  
   CompanyInfo(){
-    var obj:any = { 
+    let obj:any = { 
     }
     this.api
     .CompanyInfo()
@@ -153,14 +152,14 @@ enterUserName(){
     
   // moved getAppLicense,convertToObj ,sortAppsData,appNameDictionary & setMenuData from Menu Component to handle access to the Apps on login
   getAppLicense(wsid) {
-    let userData=JSON.parse(localStorage.getItem('user') || '{}');
+    let userData=JSON.parse(localStorage.getItem('user')?? '{}');
     let payload = {
       workstationid: userData.wsid,
     };
     this.api.AppNameByWorkstation(payload)
       .subscribe(
         (res: any) => {
-          if (res && res.data) {
+          if (res?.data) {
             this.convertToObj(res.data);
             localStorage.setItem('availableApps',JSON.stringify(this.applicationData))
             this.sharedService.setMenuData(this.applicationData)
@@ -191,7 +190,7 @@ enterUserName(){
   }
   sortAppsData() {
     this.applicationData.sort(function (a, b) {
-      var nameA = a.info?.name?.toLowerCase(),
+      let nameA = a.info?.name?.toLowerCase(),
         nameB = b.info?.name?.toLowerCase();
       if (nameA < nameB)
         //sort string ascending
@@ -279,7 +278,7 @@ enterUserName(){
      this.api.workstationdefaultapp(paylaod).subscribe(
   (res: any) => {
   
-    if (res && res.data) {
+    if (res?.data) {
      this.checkAppAcess(res.data)
 
      }

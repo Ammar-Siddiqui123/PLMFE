@@ -4,7 +4,6 @@ import { AuthService } from 'src/app/init/auth.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CmConfirmAndPackingProcessTransactionComponent } from '../cm-confirm-and-packing-process-transaction/cm-confirm-and-packing-process-transaction.component';
 import { CmConfirmAndPackingSelectTransactionComponent } from '../cm-confirm-and-packing-select-transaction/cm-confirm-and-packing-select-transaction.component';
-import { contains } from 'jquery';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -17,7 +16,7 @@ import { GlobalService } from 'src/app/common/services/global.service';
 @Component({
   selector: 'app-cm-confirm-and-packing',
   templateUrl: './cm-confirm-and-packing.component.html',
-  styleUrls: ['./cm-confirm-and-packing.component.scss']
+  styleUrls: []
 })
 export class CmConfirmAndPackingComponent implements OnInit {
   @ViewChild('order_focus') order_focus: ElementRef;
@@ -70,7 +69,7 @@ displayedColumns_1: string[] = ['sT_ID','itemNumber', 'lineNumber',   'transacti
     this.order_focus.nativeElement.focus();
   }
   async NextContID(){ 
-    var obj : any = {
+    let obj : any = {
       orderNumber: this.orderNumber,
       username: this.userData.userName,
       wsid: this.userData.wsid, 
@@ -80,7 +79,7 @@ displayedColumns_1: string[] = ['sT_ID','itemNumber', 'lineNumber',   'transacti
       this.toast.error("An error has occurred",'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000});
     }else{
       this.getPreferences();
-      if(this.preferencesData && this.preferencesData.autoPrintContPL){
+      if(this.preferencesData?.autoPrintContPL){
         this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|contID:${this.contID}`);
       }
       this.contID = res.data;
@@ -95,7 +94,7 @@ async UnPack(id:any){
     if (res.data == "Fail") {
       this.toast.error("An error has occurred", 'Error!', { positionClass: 'toast-bottom-right',timeOut: 2000});  
   } else {  
-     var index =  this.transTable.filteredData.findIndex(x=>x.sT_ID == id);
+     let index =  this.transTable.filteredData.findIndex(x=>x.sT_ID == id);
      this.transTable.filteredData[index].containerID = '';
      this.transTable.filteredData[index].complete = false; 
   };
@@ -125,7 +124,7 @@ ConfirmAndPackingIndex(){
 
 
 if(this.orderNumber != ""){
-  var obj : any = {
+  let obj : any = {
     orderNumber: this.orderNumber,
     username: this.userData.userName,
     wsid: this.userData.wsid, 
@@ -163,7 +162,7 @@ async ClickConfirmAll(){
 
   dialogRef.afterClosed().subscribe((result) => {
     if (result == 'Yes') { 
-    var obj : any = {
+    let obj : any = {
       orderNumber:this.orderNumber,
       containerID: this.contID,
       username: this.userData.userName,
@@ -176,16 +175,16 @@ async ClickConfirmAll(){
 
    
 
-    if(this.preferencesData && this.preferencesData.autoPrintContLabel){
+    if(this.preferencesData?.autoPrintContLabel){
       this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|contID:${this.contID}`);
     }
-    if(this.preferencesData && this.preferencesData.autoPrintContPL){
+    if(this.preferencesData?.autoPrintContPL){
       setTimeout(() => {
         this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|contID:${this.contID}`);
       }, 2000); 
       
     }
-    if(this.preferencesData && this.preferencesData.autoPrintOrderPL){
+    if(this.preferencesData?.autoPrintOrderPL){
       setTimeout(() => {
         this.global.Print(`FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`);
       }, 3500); 
@@ -200,7 +199,7 @@ async ClickConfirmAll(){
   
 } 
 openScanItem(ItemNumber:any,id: any) {
-  var index= this.transTable.filteredData.findIndex(x=>x.sT_ID == id);
+  let index= this.transTable.filteredData.findIndex(x=>x.sT_ID == id);
   this.transTable.filteredData[index].active = true; 
   let dialogRef = this.dialog.open(CmConfirmAndPackingProcessTransactionComponent, {
     height: 'auto',
@@ -236,7 +235,7 @@ announceSortChange2(sortState: Sort) {
 }
 
  openSelectTransaction(ItemNumber:any,id: any) {
-  var index= this.transTable.filteredData.findIndex(x=>x.sT_ID == id);
+  let index= this.transTable.filteredData.findIndex(x=>x.sT_ID == id);
   this.transTable.filteredData[index].active = true;
   let dialogRef = this.dialog.open(CmConfirmAndPackingSelectTransactionComponent, {
     height: 'auto',
@@ -264,24 +263,22 @@ announceSortChange2(sortState: Sort) {
  }
 async ScanItemNum($event:any){  
   if($event.key == "Enter"){ 
-  var index;
-var searchCount = 0;
-var id;
-var contID;
-for (var x = 0; x < this.transTable.filteredData.length; x++) {
-    var itemNum = this.transTable.filteredData[x].itemNumber;
-    var complete = this.transTable.filteredData[x].complete;
-    if (this.ItemNumber.toLowerCase() == itemNum.toLowerCase() && complete==false) {
+let searchCount = 0;
+let id;
+let contID;
+for (let x = 0; x < this.transTable.filteredData.length; x++) {
+    let itemNum = this.transTable.filteredData[x].itemNumber;
+    let complete = this.transTable.filteredData[x].complete;
+    if (this.ItemNumber.toLowerCase() == itemNum.toLowerCase() && !complete) {
         searchCount += 1;
         id = this.transTable.filteredData[x].sT_ID;
-        index = x;
     };
 };
  
 if(searchCount == 0){ 
   this.toast.error("The desired item number was not found or is already confirmed and packed",'Item Number Issue', { positionClass: 'toast-bottom-right',timeOut: 2000}); 
 } else if (searchCount == 1) {
-  var obj : any = {
+  let obj : any = {
     id: id,
     orderNumber: this.orderNumber,
     containerID: this.contID,
@@ -298,27 +295,27 @@ if(searchCount == 0){
   this.openScanItem($event.target.value,id);  
 } else {  
   this.getPreferences();
-  var index =  this.transTable.filteredData.findIndex(x=>x.sT_ID == id);
+  let index =  this.transTable.filteredData.findIndex(x=>x.sT_ID == id);
   this.transTable.filteredData[index].containerID = this.contID;
   this.transTable.filteredData[index].complete = true; 
-    if(this.preferencesData && this.preferencesData.autoPrintContLabel){
+    if(this.preferencesData?.autoPrintContLabel){
       this.global.Print(`FileName:PrintConfPackLabel|OrderNum:${this.orderNumber}|contID:${this.contID}`);
     
     }
-    if(this.preferencesData && this.preferencesData.autoPrintContPL){
+    if(this.preferencesData?.autoPrintContPL){
       this.global.Print(`FileName:PrintConfPackPrintCont|OrderNum:${this.orderNumber}|contID:${this.contID}`);
     
     }
-    if(this.preferencesData && this.preferencesData.autoPrintOrderPL){
+    if(this.preferencesData?.autoPrintOrderPL){
       this.global.Print(`FileName:PrintConfPackPackList|OrderNum:${this.orderNumber}`);
     
     }
 
-};
+}
  });
   }else {
    this.openSelectTransaction($event.target.value,id);
-};
+}
 }
 }
 async ConfirmedPacked() {

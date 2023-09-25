@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
 })
 export class BeaconService {
 
-  constructor() { }
   sendRequest(url: string, payload: any): void {
     navigator.sendBeacon(url, payload);
   }

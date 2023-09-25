@@ -1005,8 +1005,8 @@ public getSearchedItem(Body: any ): Observable<any> {
   return this.ApiBase.Get(`/Common/searchitem`, Body);
 } 
 public updateInventoryMap(body: any ,mapID?): Observable<any> {
-  body.inventoryMapID=mapID && mapID.invMapID?mapID.invMapID:0;
-  body.masterInventoryMapID=mapID && mapID.masterInvMapID?mapID.masterInvMapID:0; 
+  body.inventoryMapID= mapID?.invMapID ?? 0;
+  body.masterInventoryMapID=mapID?.masterInvMapID ?? 0;
    const asArray = Object.entries(body); 
    const filtered = asArray.filter(([key, value]) =>  value != ''); 
    let payload = Object.fromEntries(filtered); 
@@ -1251,7 +1251,7 @@ public ReprocessTransactionDelete(payload:any): Observable<any>{
 
 public updateAppName(userName:any, wsid:any, appName:any = ''): Observable<any> {
   
-    var payLoad = {
+    let payLoad = {
       "userName":userName,
       "wsid": wsid,
       "appName":appName   
