@@ -453,7 +453,7 @@ export class SrNewOrderComponent implements OnInit {
       if (res.isExecuted && res.data) {
         this.newReplenishmentOrders();
       } 
-        if(replenish){
+        else if (replenish){
           this.toastr.error("No items available to replenish.", 'Error!', {
             positionClass: 'toast-bottom-right',
             timeOut: 2000

@@ -30,7 +30,7 @@ export class LocationNameComponent implements OnInit {
 
   getLocation(){ 
     this.Api.LocationNames().subscribe((res=>{
-      if(res?.isExecuted && res.isExecuted){
+      if(res?.isExecuted){
         
         let tempLocationNames:any = [];
         res.data.forEach((element:any) => {

@@ -346,7 +346,7 @@ export class OmCreateOrdersComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if (result?.isExecuted && result.isExecuted) {
+      if (result?.isExecuted) {
         this.getColumnSequence();
       }
     });

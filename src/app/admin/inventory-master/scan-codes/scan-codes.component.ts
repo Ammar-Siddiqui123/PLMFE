@@ -161,7 +161,7 @@ export class ScanCodesComponent{
       return;
     }
     this.scanCodes.controls['scanCode'].value.forEach(element => {
-      if(element.scanCode== scanCode || (element.startPosition== startPosition && element.scanType== scanType  && element.scanRange== scanRange && element.codeLength== codeLength && newRecord)){
+      if((element.scanCode== scanCode || (element.startPosition== startPosition && element.scanType== scanType  && element.scanRange== scanRange && element.codeLength== codeLength)) && newRecord){
         newRecord = false;
        
       }
@@ -172,7 +172,7 @@ export class ScanCodesComponent{
         positionClass: 'toast-bottom-right',
         timeOut: 2000
       });
-      
+      return;
     }
 
     else if(newRecord){

@@ -163,7 +163,7 @@ export class OpenTransactionDataTableComponent
         reel:this.reels,
        
         orderItem: this.orderItem,
-        Order:this.identify,
+        Order:this.identify==='Order Number',
         id:row.id
       },
     });

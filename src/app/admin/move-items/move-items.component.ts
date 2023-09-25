@@ -249,7 +249,7 @@ export class MoveItemsComponent implements OnInit {
     this.Api
       .GetMoveItemsTable(payload)
       .subscribe((res: any) => {
-        if (res?.data && res.data && res.data['moveMapItems'].length === 0) {
+        if (res?.data && res.data['moveMapItems'].length === 0) {
           if (tableName === 'MoveFrom') {
             this.resetPaginationFrom();
           } else {
@@ -257,8 +257,7 @@ export class MoveItemsComponent implements OnInit {
           }
         }
         if (tableName === 'MoveTo') {
-          res?.data &&
-            res.data &&
+            res?.data &&
             res.data['moveMapItems'].map((item) => {
               item.isSelected = false;
             });
