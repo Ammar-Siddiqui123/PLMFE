@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { WarehouseComponent } from 'src/app/admin/dialogs/warehouse/warehouse.component';
@@ -8,7 +8,7 @@ import { AlertConfirmationComponent } from '../alert-confirmation/alert-confirma
 @Component({
   selector: 'app-reel-detail',
   templateUrl: './reel-detail.component.html',
-  styleUrls: ['./reel-detail.component.scss']
+  styleUrls: []
 })
 export class ReelDetailComponent implements OnInit {
 
