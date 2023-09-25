@@ -94,7 +94,6 @@ export class AddNewDeviceComponent implements OnInit {
     }
     if (form.value.deviceNumber === null || form.value.deviceNumber === '') {
       this.openAlertDialog('Device Number cannot be left blank.');
-      return;
     } else {
       let item = form.value;
       let preferences = [
@@ -142,15 +141,14 @@ export class AddNewDeviceComponent implements OnInit {
             break;
         }
       }
+      let newdeviceID = this.newDeviceID>0?this.newDeviceID:0
       let paylaod = {
         DeviceID:
         this.data?.item && this.data.item.deviceID
           ? this.data.item.deviceID
-          : this.newDeviceID>0?this.newDeviceID:0,
+          : newdeviceID,
           shown: shown,
           Preference: preferences,
-       
-      
       };
       
       this.Api
@@ -303,13 +301,9 @@ export class AddNewDeviceComponent implements OnInit {
   }
 
   getDeviceInformation(deviceID?) {
-    
+    let con = this.data?.item ? this.data.item.deviceID : 0;
     let payload = {
-      deviceID: deviceID
-        ? deviceID
-        : this.data && this.data.item
-        ? this.data.item.deviceID
-        : 0,
+      deviceID: deviceID ? deviceID : con,
       username: this.userData.userName,
       wsid: this.userData.wsid,
     };
