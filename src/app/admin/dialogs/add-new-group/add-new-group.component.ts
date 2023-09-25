@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import labels from '../../../labels/labels.json'; 
-import { AccessGroupObject, AdminEmployeeLookupResponse, IEmployee } from 'src/app/Iemployee';
+import { AccessGroupObject, IEmployee } from 'src/app/Iemployee';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 export interface DialogData {
@@ -13,7 +13,7 @@ export interface DialogData {
 @Component({
   selector: 'app-add-new-group',
   templateUrl: './add-new-group.component.html',
-  styleUrls: ['./add-new-group.component.scss']
+  styleUrls: []
 })
 
 export class AddNewGroupComponent implements OnInit {
@@ -45,7 +45,7 @@ export class AddNewGroupComponent implements OnInit {
   }
 
   checkWhiteSpace(string: any) {
-    const isSpace = string.trim() === '' ? true : false;
+    const isSpace = string.trim() === '';
     if (isSpace) {
       return { 'whitespace': true }
     }
@@ -76,7 +76,6 @@ export class AddNewGroupComponent implements OnInit {
             });
           }
           else {
-            //this.dialog.closeAll(); // Close opened diaglo
             this.toastr.error(response.responseMessage, 'Error!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000
@@ -94,13 +93,7 @@ export class AddNewGroupComponent implements OnInit {
       this.isValidForm = true;
     }
     else {
-      if (this.alphaNumberOnly(input)) {
-        this.isValidForm = false;
-      }
-      else {
-        this.isValidForm = true;
-      }
-
+      this.isValidForm = !this.alphaNumberOnly(input);
     }
   }
 
