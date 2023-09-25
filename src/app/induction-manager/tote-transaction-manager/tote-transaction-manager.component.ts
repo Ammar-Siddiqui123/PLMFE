@@ -131,8 +131,8 @@ export class ToteTransactionManagerComponent implements OnInit {
             data: {
               deleteAllDisable:true,
               enableClear:enablebatch,
-              batchId: row?.batchPickID && row.batchPickID?row.batchPickID:'',
-              toteId: row?.toteId && row.toteId?row.toteId:'',
+              batchId: row?.batchPickID ? row.batchPickID : '',
+              toteId: row?.toteId ? row.toteId : '',
               userName: this.userData.userName,
               wsid: this.userData.wsid,
               delButtonHide:true

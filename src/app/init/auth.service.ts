@@ -1,8 +1,6 @@
 import { PlatformLocation } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {  } from 'rxjs/internal/Observable';
-import { } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
