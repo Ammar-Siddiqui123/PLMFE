@@ -11,7 +11,7 @@ import { SharedService } from 'src/app/services/shared.service';
 @Component({
   selector: 'app-open-transaction-filters',
   templateUrl: './open-transaction-filters.component.html',
-  styleUrls: ['./open-transaction-filters.component.scss'],
+  styleUrls: [],
 })
 export class OpenTransactionFiltersComponent implements OnInit {
   @Output() nextScreen = new EventEmitter<string>();

@@ -20,7 +20,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ContextMenuFiltersService } from 'src/app/init/context-menu-filters.service';
 import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.component';
-import { Api } from 'datatables.net';
+import { } from 'datatables.net';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 const TRNSC_DATA = [
@@ -249,7 +249,7 @@ export class MoveItemsComponent implements OnInit {
     this.Api
       .GetMoveItemsTable(payload)
       .subscribe((res: any) => {
-        if (res && res.data && res.data['moveMapItems'].length === 0) {
+        if (res?.data && res.data && res.data['moveMapItems'].length === 0) {
           if (tableName === 'MoveFrom') {
             this.resetPaginationFrom();
           } else {
@@ -257,13 +257,13 @@ export class MoveItemsComponent implements OnInit {
           }
         }
         if (tableName === 'MoveTo') {
-          res &&
+          res?.data &&
             res.data &&
             res.data['moveMapItems'].map((item) => {
               item.isSelected = false;
             });
           this.moveToDatasource = new MatTableDataSource(
-            res && res.data && res.data['moveMapItems']
+            res?.data && res.data && res.data['moveMapItems']
           );
           this.totalRecordsTo = res?.data.recordsTotal;
           this.recordsFilteredTo = res?.data.recordsFiltered;
@@ -271,7 +271,7 @@ export class MoveItemsComponent implements OnInit {
             this.totalRecords
           } of ${Math.ceil(this.totalRecords / this.recordsPerPage)}`;
         } else {
-          res &&
+          res?.data &&
             res.data &&
             res.data['moveMapItems'].map((item) => {
               item.isSelected = false;
@@ -288,7 +288,7 @@ export class MoveItemsComponent implements OnInit {
   }
 
   getFloatLabelValue(): FloatLabelType {
-    return this.floatLabelControl.value || 'auto';
+    return this.floatLabelControl.value ?? 'auto';
   }
   async autocompleteSearchColumn() {
     let searchPayload = {
@@ -410,7 +410,7 @@ export class MoveItemsComponent implements OnInit {
       this.to_itemQuantity = row.itemQuantity;
       this.to_zone = row.zone;
       this.invMapmoveToID = row.invMapID;
-      this.isDedicated = row.dedicated === true ? true : false;
+      this.isDedicated = row.dedicated ;
       this.fillQty =
         row.itemQuantity - row.maximumQuantity - row.quantityAllocatedPutAway;
       this.fillQtytoShow = this.fillQty;
@@ -473,7 +473,7 @@ export class MoveItemsComponent implements OnInit {
       this.from_itemQtyShow = row.itemQuantity;
       this.MoveFromDedicated =
         row.dedicated === true ? 'Dedicated' : 'Not Dedicated';
-      this.isDedicated = row.dedicated === true ? true : false;
+      this.isDedicated = row.dedicated
       this.fillQty =
         row.itemQuantity - row.maximumQuantity - row.quantityAllocatedPutAway;
       this.from_zone = row.zone;
@@ -632,8 +632,8 @@ export class MoveItemsComponent implements OnInit {
       return;
     }
 
-    let moveFromDedicated = this.MoveFromDedicated;
-    let moveToDedicated = this.MoveToDedicated;
+    
+    
     if (this.isDedicated) {
       this.openAlertDialog('Dedicate', null, (val) => {
       });

@@ -4,9 +4,9 @@ import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { NavigationEnd, Router } from '@angular/router';
-import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { Subject } from 'rxjs';
 import { GlobalService } from 'src/app/common/services/global.service';
-import { BrChooseReportTypeComponent } from 'src/app/dialogs/br-choose-report-type/br-choose-report-type.component';
+import { } from 'src/app/dialogs/br-choose-report-type/br-choose-report-type.component';
 import { AuthService } from 'src/app/init/auth.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions'; 
 
@@ -101,7 +101,7 @@ export class BasicReportsAndLabelsComponent implements OnInit {
     })
   }
   basicreportdetails(Report){
-   var payload:any = {
+   let payload:any = {
     report:Report,
     WSID:this.userData.wsid
     }
@@ -113,7 +113,7 @@ export class BasicReportsAndLabelsComponent implements OnInit {
   }
   async changefilter(column,index){
  
-    var payload:any ={
+    let payload:any ={
       reportName:this.BasicReportModel.ChooseReport,
       column:column
     };
@@ -130,7 +130,7 @@ export class BasicReportsAndLabelsComponent implements OnInit {
       this.reportData[16+index] = "";
       this.reportData[22+index] = "";
     }
-    var payload:any = {
+    let payload:any = {
      report:this.BasicReportModel.ChooseReport,
      wsid:this.userData.wsid,
      username:this.userData.userName,
@@ -163,7 +163,7 @@ reportfieldvalues(selectedIndex,selectedValue,IsRemove=false){
   if(IsRemove == true || !(selectedIndex == this.selectedIndex && selectedValue == this.selectedIndex)){
     this.selectedIndex = selectedIndex;
     this.selectedValue =selectedValue;
-  var payload:any = {
+  let payload:any = {
     report:this.BasicReportModel.ChooseReport,
     wsid:this.userData.wsid,
     username:this.userData.userName,
@@ -184,7 +184,7 @@ reportfieldvalues(selectedIndex,selectedValue,IsRemove=false){
     
   }
 ReportTitles(){
-  var payload:any = {
+  let payload:any = {
     report:this.BasicReportModel.ChooseReport,
     wsid:this.userData.wsid,
     username:this.userData.userName,

@@ -88,7 +88,7 @@ export class SrNewOrderComponent implements OnInit {
     this.tablePayloadObj.username = this.userData.userName;
     this.tablePayloadObj.wsid = this.userData.wsid;
     this.refreshNewOrders.subscribe(e => {
-      // this.newReplenishmentOrders();
+      
     });
   }
 
@@ -163,7 +163,7 @@ export class SrNewOrderComponent implements OnInit {
   }
 
   getFloatLabelValue(): FloatLabelType {
-    return this.floatLabelControl.value || 'auto';
+    return this.floatLabelControl.value ?? 'auto';
   }
 
   closeautoMenu() {
@@ -452,7 +452,7 @@ export class SrNewOrderComponent implements OnInit {
     this.Api.ReplenishmentsIncludeAllUpdate(paylaod).subscribe((res: any) => {
       if (res.isExecuted && res.data) {
         this.newReplenishmentOrders();
-      } else {
+      } 
         if(replenish){
           this.toastr.error("No items available to replenish.", 'Error!', {
             positionClass: 'toast-bottom-right',
@@ -464,7 +464,7 @@ export class SrNewOrderComponent implements OnInit {
             timeOut: 2000
           });
         }
-      }
+      
     });
   }
 

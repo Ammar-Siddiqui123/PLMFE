@@ -5,12 +5,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
+import {  } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 import { LaLocationAssignmentQuantitiesComponent } from '../../dialogs/la-location-assignment-quantities/la-location-assignment-quantities.component';
 import { AuthService } from 'src/app/init/auth.service'; 
-import { data } from 'jquery';
+import {  } from 'jquery';
 import { ToastrService } from 'ngx-toastr';
-import { left } from '@popperjs/core';
+import {  } from '@popperjs/core';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 

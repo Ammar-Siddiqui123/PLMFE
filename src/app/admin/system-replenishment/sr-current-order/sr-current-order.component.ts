@@ -14,11 +14,11 @@ import { InputFilterComponent } from 'src/app/dialogs/input-filter/input-filter.
 import { FloatLabelType } from '@angular/material/form-field';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import {  } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { Subject } from 'rxjs';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
-import { Router } from '@angular/router';
+import {  } from '@angular/router';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { GlobalService } from 'src/app/common/services/global.service';
@@ -161,7 +161,7 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   getFloatLabelValue(): FloatLabelType {
-    return this.floatLabelControl.value || 'auto';
+    return this.floatLabelControl.value ?? 'auto';
   }
 
   closeautoMenu() {
@@ -401,8 +401,7 @@ export class SrCurrentOrderComponent implements OnInit {
         },
       });
       dialogRef.afterClosed().subscribe((res) => {
-        if (res) {
-        }
+        
       });
     }
     else {
@@ -450,18 +449,11 @@ export class SrCurrentOrderComponent implements OnInit {
   }
 
   showChange(event: any) {
-    if (event == 'All') {
+    if (event == 'All' || event == 'Open' || event == 'Completed') {
       this.tablePayloadObj.status = event;
       this.newReplenishmentOrders();
     }
-    else if (event == 'Open') {
-      this.tablePayloadObj.status = event;
-      this.newReplenishmentOrders();
-    }
-    else if (event == 'Completed') {
-      this.tablePayloadObj.status = event;
-      this.newReplenishmentOrders();
-    }
+    
   }
 
   searchChange(event: any) {
