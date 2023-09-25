@@ -25,8 +25,7 @@
                                 (ngModelChange)="this.batchPickId.next($event)">
                                 <button *ngIf="batchId != ''" matSuffix class="clear-btn" (click)="test()" ><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
 
-                            <mat-autocomplete class="card custom-scroll" #auto="matAutocomplete"
-                                (optionSelected)="searchData($event)">
+                            <mat-autocomplete class="card custom-scroll" #auto="matAutocomplete">
 
                                 <h6 class="card-header matAutoCompHeader "><span style="width:  140px;">Batch Pick
                                         ID</span> </h6>

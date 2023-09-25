@@ -105,7 +105,7 @@ export class ToteTransactionManagerComponent implements OnInit {
    
   }
   getFloatLabelValue(): FloatLabelType {
-    return this.floatLabelControl.value || 'auto';
+    return this.floatLabelControl.value ?? 'auto';
   }
   searchData(event) {}
 
@@ -131,8 +131,8 @@ export class ToteTransactionManagerComponent implements OnInit {
             data: {
               deleteAllDisable:true,
               enableClear:enablebatch,
-              batchId: row && row.batchPickID?row.batchPickID:'',
-              toteId: row && row.toteId?row.toteId:'',
+              batchId: row?.batchPickID && row.batchPickID?row.batchPickID:'',
+              toteId: row?.toteId && row.toteId?row.toteId:'',
               userName: this.userData.userName,
               wsid: this.userData.wsid,
               delButtonHide:true
@@ -180,7 +180,7 @@ export class ToteTransactionManagerComponent implements OnInit {
     this.Api
       .SelectToteTransManTable(payload)
       .subscribe((res: any) => {
-        this.totalRecords=res.data && res.data[0] && res.data[0].totalCount? res.data[0].totalCount:0;
+        this.totalRecords=  res?.data[0]?.totalCount? res.data[0].totalCount:0;
         this.dataSource = new MatTableDataSource(res?.data);
       });
   }
@@ -258,7 +258,7 @@ export class ToteTransactionManagerComponent implements OnInit {
         window.open(`/#/report-view?file=FileName:PrintPrevOffCarList|ToteID:${row.toteId}|TransType:${row.transactionType}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
       }
         break;
-        case 'printTotelContents':
+        case 'printTotelContents' || 'printToteLabels':
 
         if(this.imPreferences.printDirectly){
           this.global.Print(`FileName:PrintPrevToteContents|ToteID:${row.toteId}|ZoneLab:${row.zoneLabel}|TransType:${row.transactionType}`)
@@ -267,13 +267,7 @@ export class ToteTransactionManagerComponent implements OnInit {
         }
            break;
 
-           case 'printToteLabels':
-            if(this.imPreferences.printDirectly){
-              this.global.Print(`FileName:PrintPrevToteContents|ToteID:${row.toteId}|ZoneLab:${row.zoneLabel}|TransType:${row.transactionType}`)
-            }else{
-              window.open(`/#/report-view?file=FileName:PrintPrevToteContents|ToteID:${row.toteId}|ZoneLab:${row.zoneLabel}|TransType:${row.transactionType}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0')
-            }
-              break;
+         
       default:
         break;
     }
