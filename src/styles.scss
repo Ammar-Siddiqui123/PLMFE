@@ -244,16 +244,16 @@ body {
   // overflow: hidden !important;
 }
 
-.mat-drawer {
-  background: #F2F2FF;
-}
+// .mat-drawer {
+//   background: #F2F2FF;
+// }
 
-:host {
-  .mat-icon {
-    vertical-align: middle;
-    margin-right: 1rem;
-  }
-}
+// :host {
+//   .mat-icon {
+//     vertical-align: middle;
+//     margin-right: 1rem;
+//   }
+// }
 
 .logo {
   text-align: center;
@@ -376,9 +376,9 @@ button {
   background: rgba($tertiary-10, $alpha: 0.25);
 }
 
-mat-toolbar {
-  background: #f7f7f7;
-}
+// mat-toolbar {
+//   background: #f7f7f7;
+// }
 
 .user-image {
   border-radius: 50%;
@@ -757,6 +757,7 @@ mat-toolbar {
 }
 
 .mat-drawer {
+  background: #F2F2FF;
   visibility: visible !important;
   display: block !important;
   transform: translate3d(0, 0, 0) !important;
@@ -1024,9 +1025,9 @@ table.g-card-table tr.mat-row td {
 
 }
 
-table.g-card-table th.mat-header-cell {
-  // padding: 0 !important;
-}
+// table.g-card-table th.mat-header-cell {
+//   padding: 0 !important;
+// }
 
 .action-clickable-table .mat-row {
   cursor: pointer;
@@ -1133,6 +1134,8 @@ td.dataTables_empty {
 }
 
 .isDivDisabled {
+  pointer-events: none;
+  cursor: none;
   .main-section-option {
     background: rgba($color: #fff, $alpha: 0.5);
 
@@ -1243,7 +1246,7 @@ h4.main-section-title {
 //-------------- BACKGROUND-COLOR-CLASSES ----END-------------------
 
 //-------------- TEXT-COLOR-CLASSES ----START-------------------
-.text-error {}
+// .text-error {}
 
 //-------------- TEXT-COLOR-CLASSES ----END-------------------
 
@@ -1792,13 +1795,13 @@ button.default-btn {
 }
 
 .clickable-table-style-1 {
-  thead {
-    tr {
-      th {
-        &:first-child {}
-      }
-    }
-  }
+  // thead {
+  //   tr {
+  //     th {
+  //       &:first-child {}
+  //     }
+  //   }
+  // }
 
   tr {
     position: relative;
@@ -1920,7 +1923,6 @@ button.default-btn {
 
 .paginator-left {
   float: left, imp !important;
-  ;
 }
 
 //-------------- PAGINATOR-CLASSES ----START-------------------
@@ -2297,11 +2299,11 @@ button.default-btn {
 
 }
 
-.isDivDisabled {
-  pointer-events: none;
-  cursor: none;
-  // background-color: rgba(0, 0, 0, .38) !important;
-}
+// .isDivDisabled {
+//   pointer-events: none;
+//   cursor: none;
+//   background-color: rgba(0, 0, 0, .38) !important;
+// }
 
 .mat-autocomplete-panel.custom-scroll.mat-autocomplete-hidden {
   display: none;
