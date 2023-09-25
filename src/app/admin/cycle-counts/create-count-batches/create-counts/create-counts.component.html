@@ -237,7 +237,7 @@
                         <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
                             <mat-label>From Date</mat-label>
                                 <input matInput type="datetime-local" (ngModelChange)="this.searchField.next($event)" formControlName="pickedStart" id="completionDate" [ngModel] = "localCompleteDate"
-                                placeholder="yyyy-MM-ddTHH:mm" [min]="localCompleteDate" class="form-control"  />
+                                placeholder="yyyy-MM-ddTHH:mm" class="form-control"  />
                             <!-- <mat-datepicker-toggle matSuffix [for]="start" ngDefaultControl></mat-datepicker-toggle> -->
                             <!-- <mat-datepicker #start></mat-datepicker> -->
                         </mat-form-field>
@@ -249,7 +249,7 @@
                         <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
                             <mat-label>To Date</mat-label>
                             <input matInput type="datetime-local" (ngModelChange)="this.searchField.next($event)" formControlName="pickedEnd"  [ngModel] = "localCompleteDate"
-                            placeholder="yyyy-MM-ddTHH:mm" [min]="localCompleteDate">
+                            placeholder="yyyy-MM-ddTHH:mm">
                             <!-- <mat-datepicker-toggle matSuffix [for]="end" ngDefaultControl></mat-datepicker-toggle>
                             <mat-datepicker #end></mat-datepicker> -->
                         </mat-form-field>
