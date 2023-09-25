@@ -1,6 +1,5 @@
 import { Component, ElementRef, Inject, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef,MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs'; 
 import { AuthService } from '../../../../app/init/auth.service';
@@ -78,7 +77,7 @@ export class WarehouseComponent implements OnInit {
     this.enableButton = [];
     this.Api.GetWarehouses().subscribe((res) => {
       this.warehouse_list = res.data;
-      for (var i = 0; i < this.warehouse_list.length; i++) {
+      for (let i = 0; i < this.warehouse_list.length; i++) {
         this.enableButton.push({ index: i, value: true });
       }
 
@@ -103,13 +102,13 @@ export class WarehouseComponent implements OnInit {
 
     let cond = true;
     this.warehouse_list.forEach(element => {
-      if (element == warehosue) {
+      if (element == warehosue && cond) {
         cond = false
         this.toastr.error('Conflict: Warehouse cannot be saved! Another warehouse matches the current. Please save any pending changes before attempting to save this entry.', 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
-        return;
+       
       }
     });
     if (cond) {

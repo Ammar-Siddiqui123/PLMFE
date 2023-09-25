@@ -5,7 +5,7 @@ import { ItemNumUpdateConfirmationComponent } from '../item-num-update-confirmat
 @Component({
   selector: 'app-item-number',
   templateUrl: './item-number.component.html',
-  styleUrls: ['./item-number.component.scss']
+  styleUrls: []
 })
 export class ItemNumberComponent implements OnInit {
   @ViewChild('itm_nmb') itm_nmb: ElementRef;
