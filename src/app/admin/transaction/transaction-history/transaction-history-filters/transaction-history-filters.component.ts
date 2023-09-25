@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { Subject, takeUntil, interval, Subscription, Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { FloatLabelType } from '@angular/material/form-field';
 import { FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/init/auth.service'; 
@@ -14,7 +14,7 @@ let backDate = new Date(year - 50, month, day);
 @Component({
   selector: 'app-transaction-history-filters',
   templateUrl: './transaction-history-filters.component.html',
-  styleUrls: ['./transaction-history-filters.component.scss'],
+  styleUrls: [],
 })
 export class TransactionHistoryFiltersComponent implements OnInit {
   @Output() startDate = new EventEmitter<any>();
@@ -55,7 +55,7 @@ export class TransactionHistoryFiltersComponent implements OnInit {
     this.orderNo.emit(event);
   }
   getFloatLabelValue(): FloatLabelType {
-    return this.floatLabelControl.value || 'auto';
+    return this.floatLabelControl.value ?? 'auto';
   }
 
   resetToTodaysDate() {
@@ -83,10 +83,10 @@ export class TransactionHistoryFiltersComponent implements OnInit {
     this.Api
       .NextSuggestedTransactions(searchPayload)
       .subscribe(
-        (res: any) => {
+        {next: (res: any) => {
           this.searchAutocompleteList = res.data;
         },
-        (error) => {}
+        error: (error) => {}}
       );
   }
   onDateChange(event: any): void {

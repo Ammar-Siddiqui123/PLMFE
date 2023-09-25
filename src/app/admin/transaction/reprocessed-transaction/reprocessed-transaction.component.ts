@@ -7,12 +7,10 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSelect } from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from 'angular-routing';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/init/auth.service';
 import { ColumnSequenceDialogComponent } from '../../dialogs/column-sequence-dialog/column-sequence-dialog.component';
-import { SetColumnSeqComponent } from '../../dialogs/set-column-seq/set-column-seq.component'; 
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 const TRNSC_DATA = [
@@ -112,7 +110,7 @@ export class ReprocessedTransactionComponent implements OnInit {
       tableName: 'ReProcessed',
     };
     this.Api.GetColumnSequence(payload).subscribe(
-      (res: any) => {
+      {next: (res: any) => {
         this.displayedColumns = TRNSC_DATA;
         if (res.data) {
           this.columnValues = res.data;
@@ -124,7 +122,7 @@ export class ReprocessedTransactionComponent implements OnInit {
           });
         }
       },
-      (error) => {}
+      error: (error) => {}}
     );
   }
   clearMatSelectList(){
@@ -144,10 +142,10 @@ export class ReprocessedTransactionComponent implements OnInit {
     this.Api
       .TransactionModelIndex(paylaod)
       .subscribe(
-        (res: any) => {
+        {next: (res: any) => {
           this.columnValues = res.data?.reprocessedColumns;
         },
-        (error) => {}
+        error: (error) => {}}
       );
   }
   getContentData() {   
@@ -165,13 +163,13 @@ export class ReprocessedTransactionComponent implements OnInit {
     this.Api
       .ReprocessedTransactionTable(this.payload)
       .subscribe(
-        (res: any) => {
+        {next: (res: any) => {
           this.detailDataTransHistory = res.data?.transactions;
           this.dataSource = new MatTableDataSource(res.data?.transactions);
           this.customPagination.total = res.data?.recordsFiltered;
           this.dataSource.sort = this.sort;
         },
-        (error) => {}
+        error: (error) => {}}
       );
   }
   searchData(event) {
@@ -184,7 +182,7 @@ export class ReprocessedTransactionComponent implements OnInit {
     }
   }
   getFloatLabelValue(): FloatLabelType {
-    return this.floatLabelControl.value || 'auto';
+    return this.floatLabelControl.value ?? 'auto';
   }
 
   async autocompleteSearchColumn() {
@@ -198,11 +196,11 @@ export class ReprocessedTransactionComponent implements OnInit {
     this.Api
       .NextSuggestedTransactions(searchPayload)
       .subscribe(
-        (res: any) => {
+       { next: (res: any) => {
           this.searchAutocompleteList = res.data;
           this.getContentData();
         },
-        (error) => {}
+        error: (error) => {}}
       );
   }
   sortChange(event) {
@@ -237,7 +235,7 @@ export class ReprocessedTransactionComponent implements OnInit {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe((result) => {
           this.clearMatSelectList();
-          if (result && result.isExecuted) {
+          if (result?.isExecuted) {
             this.getColumnsData();
           }
         });

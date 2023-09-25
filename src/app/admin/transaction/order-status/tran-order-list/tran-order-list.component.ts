@@ -12,7 +12,6 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { SelectionModel } from '@angular/cdk/collections'; 
 import { AuthService } from 'src/app/init/auth.service';
 import {
   debounceTime,
@@ -256,11 +255,9 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getEleLength(ele) { 
-  }
+  
   getContentData() {
-    if (this.searchCol === 'Tote ID') {
-    }
+    
      
     this.payload = { 
       draw: 0,
@@ -284,7 +281,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.Api
       .OrderStatusData(this.payload)
       .subscribe(
-        (res: any) => {
+        {next: (res: any) => {
           
           this.detailDataInventoryMap = res.data?.orderStatus;
           this.getOrderForTote = res.data?.orderNo;
@@ -293,17 +290,13 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
           this.columnValues = res.data?.orderStatusColSequence;
           this.customPagination.total = res.data?.totalRecords;
           this.getOrderForTote =
-            res.data &&
-            res.data.orderStatus &&
-            res.data.orderStatus[0].orderNumber;
+            res?.data?.orderStatus[0]?.orderNumber;
           if (res.data) {
             this.onOpenOrderChange(res.data?.opLines);
             this.onCompleteOrderChange(res.data?.compLines);
             this.onReprocessOrderChange(res.data?.reLines);
             if (
-              res.data &&
-              res.data.orderStatus &&
-              res.data.orderStatus.length > 0
+              res?.data?.orderStatus?.length > 0
             ) {
               res.data.orderStatus.find((el) => {
                 return el.completedDate === ''
@@ -312,10 +305,9 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
               });
             }
             this.onOrderTypeOrderChange(
-              res.data &&
-                res.data.orderStatus &&
-                res.data.orderStatus.length > 0 &&
-                res.data.orderStatus[0].transactionType
+              
+                res?.data?.orderStatus?.length > 0 &&
+                res?.data?.orderStatus[0]?.transactionType
             );
             
             this.currentStatusChange(res.data.completedStatus);
@@ -339,7 +331,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
             this.onLocationZoneChange(res.data?.onCar);
           }
         },
-        (error) => {}
+        error: (error) => {}}
       );
   }
 
@@ -361,7 +353,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   }
 
   getFloatLabelValue(): FloatLabelType {
-    return this.floatLabelControl.value || 'auto';
+    return this.floatLabelControl.value ?? 'auto';
   }
   deleteSelectedOrder() {
     this.detailDataInventoryMap.this.payload = {
@@ -377,9 +369,9 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.Api
       .DeleteOrder(this.payload)
       .subscribe(
-        (res: any) => { 
+        {next: (res: any) => { 
         },
-        (error) => {}
+        error: (error) => {}}
       );
   }
   orderNoChange(event: Event) {
@@ -409,7 +401,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   onLocationZoneChange(event) {
     this.locationZones.emit(event);
   }
-  getRowClass(row) {}
+  
   getTransactionModelIndex() {
     let paylaod = {
       viewToShow: 2,
@@ -424,9 +416,9 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.Api
       .TransactionModelIndex(paylaod)
       .subscribe(
-        (res: any) => {
+        {next: (res: any) => {
         },
-        (error) => {}
+        error: (error) => {}}
       );
   }
   clearData(event) {
@@ -494,13 +486,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.getContentData();
   }
   async autocompleteSearchColumn() {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ',
-      }),
-      context: new HttpContext().set(BYPASS_LOG, true),
-    };
+    
     let searchPayload = {
       query: this.searchString,
       tableName: 1,
@@ -514,13 +500,13 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
     this.Api
       .NextSuggestedTransactions(searchPayload)
       .subscribe(
-        (res: any) => {
+        {next: (res: any) => {
           this.searchAutocompleteList = res.data;
         },
-        (error) => {}
+        error: (error) => {}}
       );
   }
-  searchData() {}
+  
   sortChange(event) {
     if (
       !this.dataSource._data._value ||
@@ -603,7 +589,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
           this.Api
             .ScanValidateOrder(payload)
             .subscribe(
-              (res: any) => {
+              {next: (res: any) => {
                 if (
                   res.isExecuted &&
                   res.data.length > 0 &&
@@ -639,7 +625,7 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
                   this.compDate = '';
                 }
               },
-              (error) => {}
+              error: (error) => {}}
             );
         }
       })
@@ -736,18 +722,6 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   }
 
 
-  ShippingCompleteDialog() {
-    const dialogRef = this.dialog.open(ShippingCompleteDialogComponent,{
-      height: 'auto',
-      width: '100vw',
-      autoFocus: '__non_existing_element__',
-      disableClose:true,
-      data: {
-        orderNumber: this.orderNo,
-      },
-    });
-
-  }
 
   printReport(){
     this.global.Print(`FileName:printOSReport|OrderNum:${this.orderNo}|ToteID:|Identifier:0`)
