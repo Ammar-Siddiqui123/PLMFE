@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ViewChild, TemplateRef, ElementRef } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import labels from '../../../labels/labels.json'; 
@@ -17,7 +17,7 @@ export interface DialogData {
 @Component({
   selector: 'app-add-new-employee',
   templateUrl: './add-new-employee.component.html',
-  styleUrls: ['./add-new-employee.component.scss']
+  styleUrls: []
 })
 export class AddNewEmployeeComponent implements OnInit {
 
@@ -62,7 +62,7 @@ export class AddNewEmployeeComponent implements OnInit {
   ngOnInit(): void { 
     this.empData = this.data?.emp_data;
     
-    this.env =  JSON.parse(localStorage.getItem('env') || ''); 
+    this.env =  JSON.parse(localStorage.getItem('env') ?? ''); 
     this.allGroups  = this.empData?.allGroups;
     this.form_heading = this.data?.mode === 'edit' ? 'Edit Employee' : 'Add New Employee';
     this.form_btn_label = this.data?.mode === 'edit' ?'Save' : 'Add';
@@ -174,8 +174,7 @@ ChangePassword(data){
                   positionClass: 'toast-bottom-right',
                   timeOut: 2000
                 });
-              }
-              else{
+              } else{
                 this.toastr.error(response.responseMessage?.toString() + '. User already exists.', 'Error!', {
                   positionClass: 'toast-bottom-right',
                   timeOut: 2000
