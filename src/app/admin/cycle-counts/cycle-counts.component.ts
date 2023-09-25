@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-cycle-counts',
   templateUrl: './cycle-counts.component.html',
-  styleUrls: ['./cycle-counts.component.scss']
+  styleUrls: []
 })
 export class CycleCountsComponent {
 
