@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
-import { QueryParams } from 'angular-routing';
+import {  } from 'angular-routing';
 import { CrAddNewCustomReportComponent } from 'src/app/dialogs/cr-add-new-custom-report/cr-add-new-custom-report.component';
 import { CrDeleteConfirmationComponent } from 'src/app/dialogs/cr-delete-confirmation/cr-delete-confirmation.component';
 import { CrEditDesignTestDataComponent } from 'src/app/dialogs/cr-edit-design-test-data/cr-edit-design-test-data.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
-import { SharedService } from 'src/app/services/shared.service';
+import {  } from 'src/app/services/shared.service';
 import { ToastrService } from 'ngx-toastr';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
 import { MatOption } from '@angular/material/core';
@@ -56,7 +56,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
   ChangeReport(IsSysBolean:boolean){
     this.Detail = {}
     this.IsSystemReport = IsSysBolean;
-    if(this.IsSystemReport == true) this.ListReports = this.sysTitles;
+    if(this.IsSystemReport) this.ListReports = this.sysTitles;
     else this.ListReports = this.reportTitles;
     console.log(this.ListReports)
   }
@@ -78,7 +78,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       console.log(this.sysTitles)
       console.log(this.reportTitles)
 
-      if(this.IsSystemReport == true || this.IsSystemReport == undefined) this.ListReports = this.sysTitles;
+      if(this.IsSystemReport || this.IsSystemReport == undefined) this.ListReports = this.sysTitles;
       else this.ListReports = this.reportTitles;
       
     })
@@ -121,7 +121,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
     }
     this.SelectedFile = file;
 
-     var obj : any = {
+     let obj : any = {
       FileName:file
     }
     this.api.Getreportdetails(obj).subscribe((res:any)=>{
@@ -141,7 +141,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result)  
-      if(result && result != false)    
+      if(result )    
       this.Detail.testData = result
       this.saveInput()
     }
@@ -159,7 +159,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-    if(result != true){
+    if(!result){
       console.log(result,'obj')
       console.log(this.IsSystemReport)      
       console.log(this.ListReports)  
@@ -183,7 +183,7 @@ export class CustomReportsAndLabelsComponent implements OnInit {
       
         let payload = {
           "filename": this.Detail.fileName,
-          "keepFile": result === 'keep' ? true : result === 'permanent' ? false : result,
+          "keepFile": result === 'keep' ? true : result === 'permanent',
           "wsid": "",
           "username": "",
           "contentRootPath": ""
