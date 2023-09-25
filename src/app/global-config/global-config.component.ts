@@ -1,8 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Component, ElementRef,  ViewChild } from '@angular/core';
+import { FormControl} from '@angular/forms';
+import { ActivatedRoute,  Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import labels from '../labels/labels.json';
 import { MatDialog } from '@angular/material/dialog';
 import { SpinnerService } from '../init/spinner.service';
 import { AuthService } from '../init/auth.service'; 
@@ -48,11 +47,11 @@ export class GlobalConfigComponent {
     this.addLoginForm.password = this.addLoginForm.password?.replace(/\s/g, "")||null;
     this.login = this.addLoginForm;
     const workStation: any = JSON.parse(
-      localStorage.getItem('workStation') || ''
+      localStorage.getItem('workStation') ?? ''
     );
     this.login.wsid = workStation.workStationID;
     this.Api.LoginUser(this.login).subscribe(
-      (res: any) => { 
+      {next: (res: any) => { 
         if (res.isExecuted && res.data !=null) { 
           let data = {
             _token: res.data.token,
@@ -61,8 +60,7 @@ export class GlobalConfigComponent {
             wsid: res.data.wsid,
             loginTime: res.data.loginTime,
           };
-          let userRights = res.data.userRights;
-                  localStorage.setItem('userConfig', JSON.stringify(data));
+          localStorage.setItem('userConfig', JSON.stringify(data));
           window.location.href =  '/#/globalconfig/home';
           window.location.reload();
         } else {
@@ -73,13 +71,13 @@ export class GlobalConfigComponent {
           });
         }
       },
-      (error) => {
+      error: (error) => {
         const errorMessage = error.responseMessage;
         this.toastr.error(errorMessage?.toString(), 'Error!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000,
         });
-      }
+      }}
     );
   }
   enterUserName(){

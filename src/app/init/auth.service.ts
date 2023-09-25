@@ -1,8 +1,8 @@
 import { PlatformLocation } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
-import { environment } from '../../environments/environment';
+import {  } from 'rxjs/internal/Observable';
+import { } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -29,20 +29,20 @@ export class AuthService {
   constructor(private http: HttpClient,private pLocation: PlatformLocation) { }
   
   IsloggedIn(){
-    let user = JSON.parse(localStorage.getItem('user') || '{}');
+    let user = JSON.parse(localStorage.getItem('user') ?? '{}');
     return !!user._token;
   }
   IsConfigLogin(){
-    let user = JSON.parse(localStorage.getItem('userConfig') || '{}');
+    let user = JSON.parse(localStorage.getItem('userConfig') ?? '{}');
     return !!user._token;
   }
 
   userData(){
     if(this.isConfigUser()){
-      return JSON.parse(localStorage.getItem('userConfig') || '{}');
+      return JSON.parse(localStorage.getItem('userConfig') ?? '{}');
     }
     else{
-      return JSON.parse(localStorage.getItem('user') || '{}');
+      return JSON.parse(localStorage.getItem('user') ?? '{}');
     }
   }
 
@@ -58,13 +58,13 @@ export class AuthService {
     return true;
   }
   public UserPermissonByFuncName(FuncName:any){
-    var userRights = this.userPermission()?.includes(FuncName);
+    let userRights = this.userPermission()?.includes(FuncName);
     if(userRights) return true;
     else  return false;
   }
   public userPermission(){
     if(localStorage.getItem('userRights')){
-      return JSON.parse(localStorage.getItem('userRights') || '{}');
+      return JSON.parse(localStorage.getItem('userRights') ?? '{}');
     }
   }
 
@@ -76,9 +76,7 @@ export class AuthService {
   isAuthorized(perm:any){
     return this.userPermission()?.includes(perm)
   }
-  isAllowedUrl(){
-    
-  }
+  
 
   
 

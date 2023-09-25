@@ -5,7 +5,6 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { ReelDetailComponent } from '../reel-detail/reel-detail.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { AlertConfirmationComponent } from '../alert-confirmation/alert-confirmation.component';
-import { take } from 'rxjs';
 import { GlobalService } from 'src/app/common/services/global.service';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 
@@ -122,10 +121,10 @@ fieldNames:any;
     let payload = {
       "numReels": this.noOfReels
     }
-    this.Api.NextSerialNumber(payload).subscribe((res: any)=>{
+    this.Api.NextSerialNumber(payload).subscribe({next: (res: any)=>{
       if (res.data && res.isExecuted){
         const dataArray: any[] = [];
-        for (var x = 0; x < this.noOfReels; x++){
+        for (let x = 0; x < this.noOfReels; x++){
           dataArray.push({reel_serial_number: '', reel_part_quantity: partsPerReel,details:this.HiddenInputValue});
         }
         this.generateReelAndSerial.data = dataArray;
@@ -143,7 +142,7 @@ fieldNames:any;
         });
       }
     },
-    (error) => {}
+    error: (error) => {}}
     )
     
 
@@ -154,7 +153,7 @@ fieldNames:any;
     if(event.keyCode == 8){
       this.generateReelAndSerial.data[index].reel_part_quantity=event.target.value
       this.updateRemaining()
-      return
+      
     }
     else{
       console.log(event.target.value)
@@ -251,7 +250,7 @@ CreateReels(){
                 
                 this.generateReelAndSerial.data.forEach((element)=>{
 
-                  sn =element.reel_serial_number
+                  
                   SNs.push(element.reel_serial_number)
             
                   reels.push({
@@ -294,7 +293,7 @@ CreateReels(){
                 this.Api.ValidateSn(payload).subscribe((res:any)=>{
                   if (res.data && res.isExecuted){
                     let errs = '';
-                    for (var x = 0; x < res.data.length; x++) {
+                    for (let x = 0; x < res.data.length; x++) {
                         if (!res.data[x].valid) {
                             errs += (SNs[x] + ' is invalid because it is already allocated ' + (res.data[x].reason == 'OT' ? 'to a Put Away in Open Transactions.' : 'in Inventory Map') );
                            
@@ -353,7 +352,7 @@ CreateReels(){
                                   this.checkSNS = SNs[0]
                                   this.PrintCrossDock()
                                   
-                                  return
+                                  
                                 }
                                 else{
                                   this.dialogRef.close(SNs[0]);
@@ -384,7 +383,7 @@ CreateReels(){
 }
 
 PrintCrossDock(){
-var res:any =   this.global.Print(`FileName:PrintReelLabels|OTID:${this.createdReel.join(",",'lbl')}|SN:|Item:|Order:`);
+let res:any =   this.global.Print(`FileName:PrintReelLabels|OTID:${this.createdReel.join(",",'lbl')}|SN:|Item:|Order:`);
  
    if(res){
   this.showConfirmationDialog('Click OK if the labels printed correctly.',(open)=>{
@@ -392,7 +391,7 @@ var res:any =   this.global.Print(`FileName:PrintReelLabels|OTID:${this.createdR
     this.PrintCrossDock();
     }else{
       this.dialogRef.close(this.checkSNS);
-      return
+      
     }
   });
     } 
@@ -420,7 +419,7 @@ var res:any =   this.global.Print(`FileName:PrintReelLabels|OTID:${this.createdR
     let payload = {
       "numReels": 1
     }
-    this.Api.NextSerialNumber(payload).subscribe((res: any)=>{
+    this.Api.NextSerialNumber(payload).subscribe({next: (res: any)=>{
       if (res.data && res.isExecuted){
         this.generateReelAndSerial.data[index].reel_serial_number=res.data+ '-RT';
       }
@@ -431,7 +430,7 @@ var res:any =   this.global.Print(`FileName:PrintReelLabels|OTID:${this.createdR
         });
       }
     },
-    (error) => {}
+    error: (error) => {}}
     )
   }
 
