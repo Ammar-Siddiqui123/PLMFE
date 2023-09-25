@@ -1,16 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { OmCreateOrdersComponent } from '../dialogs/om-create-orders/om-create-orders.component';
-import { MatDialog } from '@angular/material/dialog'; 
 import { AuthService } from '../init/auth.service';
-import { NavigationEnd, Router, RoutesRecognized } from '@angular/router';
-import { filter, pairwise } from 'rxjs';
+import { NavigationEnd, Router} from '@angular/router';
 import { ApiFuntions } from '../services/ApiFuntions';
 import { GlobalService } from '../common/services/global.service';
 
 @Component({
   selector: 'app-order-manager',
   templateUrl: './order-manager.component.html',
-  styleUrls: ['./order-manager.component.scss'],
+  styleUrls: [],
 })
 export class OrderManagerComponent implements OnInit {
   userData: any;
