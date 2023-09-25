@@ -13,7 +13,7 @@ import { AuthService } from '../../../app/init/auth.service';
 import { AddFilterFunction } from '../add-filter-function/add-filter-function.component';
 import labels from '../../labels/labels.json';
 import { DeleteConfirmationComponent } from '../../../app/admin/dialogs/delete-confirmation/delete-confirmation.component';
-import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { MatSelect } from '@angular/material/select';
 import { MatPaginator } from '@angular/material/paginator';
 import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { MatOption } from '@angular/material/core';
@@ -513,7 +513,7 @@ export class PickToteManagerComponent implements OnInit {
 
   }
 
-  viewReplenishZoneRecord(viewReplenish = "", element: any, rp: any) {
+  viewReplenishZoneRecord(element: any, rp: any, viewReplenish = "") {
     if (viewReplenish == "") {
       this.ordersFilterZoneSelect(element.zone, true, element.type);
 
@@ -812,7 +812,7 @@ export class PickToteManagerComponent implements OnInit {
     if (event.value === 'vAllOrderFilter') {
       let paylaod = {
         "Draw": 0,
-        "OrderNumber": orderNum ? orderNum : 'EAGLES',
+        "OrderNumber": orderNum ?? 'EAGLES',
         "sRow": 1,
         "eRow": 10,
         "SortColumnNumber": 0,
@@ -960,7 +960,7 @@ export class PickToteManagerComponent implements OnInit {
 
     let res: any = [];
     this.orderBydataSource.filteredData.map( (item) => {
-      var existItem = res.find((x: any) => x.sequence == item.sequence);
+      let existItem = res.find((x: any) => x.sequence == item.sequence);
       if (existItem) {
         this.toastr.error('Can\'t have conflicting sequences within the order rows. A new sequence has been provided', 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -1045,14 +1045,14 @@ export class PickToteManagerComponent implements OnInit {
       }
 
     }
-    else {
-      if (this.allSelectOrders.length > 0) {
+    else if (this.allSelectOrders.length > 0) {
+      
         selectedObj = this.FILTER_BATCH_DATA_ZONE.filter(element => this.allSelectOrders.includes(element.orderNumber));
         selectedObj = [...new Map(selectedObj.map(item => [item.orderNumber, item])).values()]
 
         let orderNumbers = new Set(selectedObj.map(d => d.orderNumber));
         currentObjArr = [...selectedObj, ...this.data.resultObj.filter(d => !orderNumbers.has(d.orderNumber))];
-      }
+      
     }
     this.dialogRef.close(currentObjArr);
   }

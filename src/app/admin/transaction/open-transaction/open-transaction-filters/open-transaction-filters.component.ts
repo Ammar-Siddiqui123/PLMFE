@@ -2,7 +2,6 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { AuthService } from 'src/app/init/auth.service'; 
-import labels from '../../../../labels/labels.json';
 import { FloatLabelType } from '@angular/material/form-field';
 import { FormControl } from '@angular/forms';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
@@ -59,11 +58,11 @@ export class OpenTransactionFiltersComponent implements OnInit {
     this.nextScreen.emit('complete');
   }
   radioChange(event){
-   if(event && event.value){
+   if(event?.value){
       this.eventChangeEmitter(event)
    }
   }
-  searchData() {}
+  
   selectedItem(event) {
     this.searchValue = '';
   }
@@ -92,17 +91,17 @@ export class OpenTransactionFiltersComponent implements OnInit {
     this.Api
       .NextSuggestedTransactions(searchPayload)
       .subscribe(
-        (res: any) => {
-          if (res && res.isExecuted) {
+        {next: (res: any) => {
+          if (res?.isExecuted) {
             this.autoCompleteSearchResult = res.data;
           }
         },
-        (error) => {}
+        error: (error) => {}}
       );
   }
 
   getFloatLabelValue(): FloatLabelType {
-    return this.floatLabelControl.value || 'auto';
+    return this.floatLabelControl.value ?? 'auto';
   }
   ngOnDestroy() {
     this.searchDeb.unsubscribe();

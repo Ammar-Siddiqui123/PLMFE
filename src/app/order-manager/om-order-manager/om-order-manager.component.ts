@@ -1,11 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { OmAddRecordComponent } from 'src/app/dialogs/om-add-record/om-add-record.component';
 import { OmCreateOrdersComponent } from 'src/app/dialogs/om-create-orders/om-create-orders.component';
 import { OmUpdateRecordComponent } from 'src/app/dialogs/om-update-record/om-update-record.component'; 
 import { AuthService } from 'src/app/init/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -160,7 +159,7 @@ export class OmOrderManagerComponent implements OnInit {
       (res: any) => {
         if (res.data && res.isExecuted) {
           this.OMIndex = res.data;
-          if (res.data && res.data.preferences) this.maxOrders = res.data.preferences[0].maxOrders;
+          if ( res.data?.preferences) this.maxOrders = res.data.preferences[0].maxOrders;
         } else {
           this.toastr.error('Something went wrong', 'Error!', {
             positionClass: 'toast-bottom-right',
@@ -202,7 +201,7 @@ export class OmOrderManagerComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if (result && result.isExecuted) this.getColumnSequence();
+      if (result?.isExecuted) this.getColumnSequence();
     });
   }
 

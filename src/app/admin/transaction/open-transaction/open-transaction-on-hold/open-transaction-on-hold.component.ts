@@ -2,29 +2,24 @@ import {
   AfterViewInit,
   Component,
   EventEmitter,
-  Input,
   OnInit,
   Output,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
-import { Subject, takeUntil, interval, Subscription, Observable } from 'rxjs';
-import { AddInvMapLocationComponent } from 'src/app/admin/dialogs/add-inv-map-location/add-inv-map-location.component';
+import { Subject, takeUntil, Subscription } from 'rxjs';
 import { AdjustQuantityComponent } from 'src/app/admin/dialogs/adjust-quantity/adjust-quantity.component';
-import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
-import { QuarantineConfirmationComponent } from 'src/app/admin/dialogs/quarantine-confirmation/quarantine-confirmation.component';  
 import { AuthService } from 'src/app/init/auth.service'; 
 import { DeleteConfirmationTransactionComponent } from 'src/app/admin/dialogs/delete-confirmation-transaction/delete-confirmation-transaction.component';
-import { SetColumnSeqComponent } from 'src/app/admin/dialogs/set-column-seq/set-column-seq.component';
 import { FloatLabelType } from '@angular/material/form-field';
 import { ColumnSequenceDialogComponent } from 'src/app/admin/dialogs/column-sequence-dialog/column-sequence-dialog.component';
 import { FunctionAllocationComponent } from 'src/app/admin/dialogs/function-allocation/function-allocation.component';
@@ -263,8 +258,7 @@ export class OpenTransactionOnHoldComponent implements OnInit, AfterViewInit {
   }
 
   onEndDate(event) {}
-  rowClick(row, event) {
-  }
+  
   filterVals: any = {
     transactions: '',
   };
@@ -336,10 +330,10 @@ this.router.navigate([]).then((result) => {
 
   }
   getFloatLabelValue(): FloatLabelType {
-    return this.floatLabelControl.value || 'auto';
+    return this.floatLabelControl.value ?? 'auto';
   }
   getFloatFormabelValue(): FloatLabelType {
-    return this.floatLabelControlColumn.value || 'auto';
+    return this.floatLabelControlColumn.value ?? 'auto';
   }
   changeTableRowColor(idx: any) {
     if (this.rowClicked === idx) {
@@ -410,14 +404,14 @@ this.router.navigate([]).then((result) => {
     this.Api
       .NextSuggestedTransactions(searchPayload)
       .subscribe(
-        (res: any) => {
+        {next: (res: any) => {
           if (isSearchByOrder) {
             this.searchAutocompleteList = res.data;
           } else {
             this.searchAutocompleteListByCol = res.data;
           }
         },
-        (error) => {}
+        error: (error) => {}}
       );
   }
 
@@ -508,7 +502,7 @@ this.router.navigate([]).then((result) => {
       tableName: 'Open Transactions',
     };
     this.Api.GetColumnSequence(payload).subscribe(
-      (res: any) => {
+      {next: (res: any) => {
         this.displayedColumns = TRNSC_DATA;
         if (res.data) {
           this.columnValues = res.data;
@@ -521,7 +515,7 @@ this.router.navigate([]).then((result) => {
           });
         }
       },
-      (error) => {}
+      error: (error) => {}}
     );
   }
   sortChange(event) {
@@ -566,7 +560,7 @@ this.router.navigate([]).then((result) => {
     this.Api
       .OpenTransactionTable(this.payload)
       .subscribe(
-        (res: any) => {
+        {next: (res: any) => {
           this.detailDataInventoryMap = res.data?.transactions;
           this.dataSource = new MatTableDataSource(res.data?.transactions);
           this.customPagination.total = res.data?.recordsFiltered;
@@ -579,7 +573,7 @@ this.router.navigate([]).then((result) => {
           else
             this.RecordSavedItem();
         },
-        (error) => {}
+        error: (error) => {}}
       );
   }
   
@@ -629,11 +623,11 @@ this.router.navigate([]).then((result) => {
     this.Api
       .TransactionModelIndex(paylaod)
       .subscribe(
-        (res: any) => {
+        {next: (res: any) => {
           this.columnValues = res.data?.openTransactionColumns;
           this.columnValues.push('actions');
         },
-        (error) => {}
+        error: (error) => {}}
       );
   }
   /*End of table functions */
@@ -653,7 +647,7 @@ this.router.navigate([]).then((result) => {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe((result) => {
           this.selectedVariable='';
-          if (result && result.isExecuted) {
+          if (result?.isExecuted) {
             this.getColumnsData();
           }
         });

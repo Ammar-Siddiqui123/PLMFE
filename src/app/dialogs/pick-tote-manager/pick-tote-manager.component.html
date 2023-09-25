@@ -548,8 +548,8 @@
                       </button>
 
                       <mat-menu #appMenu="matMenu" xPosition="before">
-                        <button mat-menu-item (click)="viewReplenishZoneRecord('',element,true)"><b class="text-tertiary-900">View Replenish Orders</b></button>
-                        <button mat-menu-item (click)="viewReplenishZoneRecord('1',element,false)">View Non Replenish Orders</button>
+                        <button mat-menu-item (click)="viewReplenishZoneRecord(element,true,'')"><b class="text-tertiary-900">View Replenish Orders</b></button>
+                        <button mat-menu-item (click)="viewReplenishZoneRecord(element,false,'1')">View Non Replenish Orders</button>
                       </mat-menu>
                     </div>
                   </td>

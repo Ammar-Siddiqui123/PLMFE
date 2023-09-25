@@ -1,8 +1,6 @@
 import {
   Component,
-  EventEmitter,
   OnInit,
-  Output,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -21,7 +19,6 @@ import { ColumnSequenceDialogComponent } from '../../dialogs/column-sequence-dia
 import { ReprocessTransactionDetailComponent } from '../../dialogs/reprocess-transaction-detail/reprocess-transaction-detail.component';
  
 import { SharedService } from '../../../services/shared.service';
-import { DialogConfig } from '@angular/cdk/dialog';
 import { FunctionAllocationComponent } from '../../dialogs/function-allocation/function-allocation.component';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
@@ -288,9 +285,9 @@ export class ReprocessTransactionComponent implements OnInit {
     this.isEnabled = false;
     this.transactionID = row.id;
 
-    this.isReprocessedChecked.flag = row.reprocess == 'False' ? false : true;
-    this.isCompleteChecked.flag = row.postAsComplete == 'False' ? false : true;
-    this.isHistoryChecked.flag = row.sendToHistory == 'False' ? false : true;
+    this.isReprocessedChecked.flag = row.reprocess;
+    this.isCompleteChecked.flag = row.postAsComplete ;
+    this.isHistoryChecked.flag = row.sendToHistory ;
 
 
     this.itemNumber   = row.itemNumber;
@@ -301,13 +298,13 @@ export class ReprocessTransactionComponent implements OnInit {
 
   getTransactionInfo(completeInfo: boolean) {
     if (!completeInfo) {
-      var payload = {
+      let payload = {
         id: '' + this.transactionID + '',
         username: this.userData.userName,
         wsid: this.userData.wsid,
       }
       this.Api.ReprocessTransactionData(payload).subscribe(
-        (res: any) => {
+        {next: (res: any) => {
           if (res.data && res.isExecuted) {
             this.createdBy = res.data[0].nameStamp;
             this.transactionDateTime = res.data[0].dateStamp;
@@ -320,7 +317,7 @@ export class ReprocessTransactionComponent implements OnInit {
             });
           }
         },
-        (error) => { }
+        error: (error) => { }}
       );
     }
     else {
@@ -367,14 +364,14 @@ export class ReprocessTransactionComponent implements OnInit {
     this.Api
       .NextSuggestedTransactions(searchPayload)
       .subscribe(
-        (res: any) => {
+        {next: (res: any) => {
           if (isSearchByOrder) {
             this.searchAutocompleteList = res.data;
           } else {
             this.searchAutocompleteListByCol = res.data;
           }
         },
-        (error) => { }
+        error: (error) => { }}
       );
   }
 
@@ -436,15 +433,14 @@ export class ReprocessTransactionComponent implements OnInit {
           .pipe(takeUntil(this.onDestroy$))
           .subscribe((result) => {
             this.selectedVariable = '';
-            if (result && result.isExecuted) {
+            if (result?.isExecuted) {
               this.getColumnsData();
             }
           });
       }
-      else
+      else if (this.selectedVariable.includes('delete'))
       {
-        if(this.selectedVariable.includes('delete'))
-        {
+        
           let deletePayload ;
           if (!opened && this.selectedVariable && this.selectedVariable =='deleteReplenishment') 
           {
@@ -596,7 +592,7 @@ export class ReprocessTransactionComponent implements OnInit {
             }
       
           })
-        }
+        
 
   
         
@@ -639,7 +635,7 @@ export class ReprocessTransactionComponent implements OnInit {
     }
   }
   getFloatFormabelValue(): FloatLabelType {
-    return this.floatLabelControlColumn.value || 'auto';
+    return this.floatLabelControlColumn.value ?? 'auto';
   }
   getProcessSelection(checkValues) {
     this.tableEvent = checkValues;
@@ -665,8 +661,8 @@ export class ReprocessTransactionComponent implements OnInit {
   deleteOrder(id: any, event) {
 
     if (id == 0 || id == -1) {
-      var message = "";
-      var command = "";
+      let message = "";
+      let command = "";
 
 
       if(event=='reprocess'){command = "reprocess"}
@@ -695,8 +691,8 @@ export class ReprocessTransactionComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if(result=='Yes'){
 
-          var MarkAsTrue = (id == 0 ? true : false);
-          var column = "";
+          let MarkAsTrue = (id == 0 ? true : false);
+          let column = "";
           if (event == 'reprocess') {
             column = 'Reprocess';
           }
@@ -707,14 +703,14 @@ export class ReprocessTransactionComponent implements OnInit {
             //history
             column = 'Send to History';
           }
-          var payload = {
+          let payload = {
             Column: column,
             MarkAsTrue: MarkAsTrue,
             username: this.userData.userName,
             wsid: this.userData.wsid,
           }
           this.Api.SetAllReprocessColumn(payload).subscribe(
-            (res: any) => {
+            {next: (res: any) => {
               if (res.data && res.isExecuted) { 
                 this.getContentData();
                 this.getOrdersWithStatus();
@@ -729,7 +725,7 @@ export class ReprocessTransactionComponent implements OnInit {
                 });
               }
             },
-            (error) => { }
+            error: (error) => { }}
           );
 
 
@@ -754,7 +750,7 @@ export class ReprocessTransactionComponent implements OnInit {
         }
       })
       dialogRef.afterClosed().subscribe(result => {
-            var payloadForReprocess = {
+            let payloadForReprocess = {
               id: id,
               reprocess: 0,
               postComplete: 0,
@@ -764,7 +760,7 @@ export class ReprocessTransactionComponent implements OnInit {
               wsid: this.userData.wsid,
             }
             this.Api.ReprocessIncludeSet(payloadForReprocess).subscribe(
-              (res: any) => {
+              {next: (res: any) => {
                 if (res.data && res.isExecuted) {
                   this.getContentData();
                   this.getOrdersWithStatus();
@@ -779,7 +775,7 @@ export class ReprocessTransactionComponent implements OnInit {
                   });
                 }
               },
-              (error) => { }
+              error: (error) => { }}
             );
   
   
@@ -801,7 +797,7 @@ export class ReprocessTransactionComponent implements OnInit {
       wsid: this.userData.wsid
     };
     this.Api.OrderToPost(payload).subscribe(
-      (res: any) => {
+      {next: (res: any) => {
         if (res.data) {
           this.orders.reprocess = res.data.reprocessCount;
           this.orders.complete = res.data.completeCount;
@@ -819,12 +815,12 @@ export class ReprocessTransactionComponent implements OnInit {
           });
         }
       },
-      (error) => { }
+      error: (error) => { }}
     );
 
   }
 
-  deleteReprocessOrder(record: any) { }
+  
 
   itemUpdatedEvent(event: any) {
     this.getContentData('1');
@@ -850,7 +846,7 @@ export class ReprocessTransactionComponent implements OnInit {
       tableName: 'Open Transactions Temp',
     };
     this.Api.GetColumnSequence(payload).subscribe(
-      (res: any) => {
+      {next: (res: any) => {
         this.displayedColumns = TRNSC_DATA;
         if (res.data) {
           this.columnValues = res.data;
@@ -863,7 +859,7 @@ export class ReprocessTransactionComponent implements OnInit {
           });
         }
       },
-      (error) => { }
+      error: (error) => { }}
     );
   }
 
@@ -887,7 +883,7 @@ export class ReprocessTransactionComponent implements OnInit {
     this.Api
       .ReprocessTransactionTable(payload)
       .subscribe(
-        (res: any) => { 
+        {next: (res: any) => { 
           this.detailDataInventoryMap = res.data?.transactions;
           this.dataSource = new MatTableDataSource(res.data?.transactions);
           this.customPagination.total = res.data?.recordsFiltered;        
@@ -895,7 +891,7 @@ export class ReprocessTransactionComponent implements OnInit {
 
           this.dataSource.sort = this.sort;
         },
-        (error) => { }
+        error: (error) => { }}
       );
 
 
@@ -921,13 +917,13 @@ export class ReprocessTransactionComponent implements OnInit {
     this.Api
       .ReprocessedTransactionHistoryTable(payload)
       .subscribe(
-        (res: any) => {
+        {next: (res: any) => {
           this.detailDataInventoryMap = res.data?.transactions;
           this.dataSource = new MatTableDataSource(res.data?.transactions);
           this.customPagination.total = res.data?.recordsFiltered;
           this.dataSource.sort = this.sort;
         },
-        (error) => { }
+        error: (error) => { }}
       );
 
 

@@ -12,17 +12,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { FloatLabelType } from '@angular/material/form-field';
 import { ToastrService } from 'ngx-toastr';
 import {
-  debounceTime,
-  distinctUntilChanged,
+  
+  
   Subject,
   Subscription,
 } from 'rxjs';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { AuthService } from 'src/app/init/auth.service';
 import { BYPASS_LOG } from 'src/app/init/http-interceptor'; 
-import labels from '../../../../labels/labels.json';
 import { SharedService } from 'src/app/services/shared.service';
-import { FilterToteComponent } from 'src/app/admin/dialogs/filter-tote/filter-tote.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { CurrentTabDataService } from 'src/app/admin/inventory-master/current-tab-data-service';
 import { ActivatedRoute } from '@angular/router';
@@ -99,11 +97,7 @@ export class TranSelectOrderComponent implements OnInit {
     }
   }
   @Input()
-  set clearEvent(event: any) {
-
-    if (event) {
-    }
-  }
+  
 
   @Input() set clearFromListEvent(event: Event) {
     if (event) {
@@ -241,7 +235,7 @@ export class TranSelectOrderComponent implements OnInit {
   }
 
   getFloatLabelValue(): FloatLabelType {
-    return this.floatLabelControl.value || 'auto';
+    return this.floatLabelControl.value ?? 'auto';
   }
   onOrderNoChange() {
     let obj = {
@@ -306,13 +300,7 @@ export class TranSelectOrderComponent implements OnInit {
   }
 
   async autocompleteSearchColumn() {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ',
-      }),
-      context: new HttpContext().set(BYPASS_LOG, true),
-    };
+    
     let searchPayload;
     if (this.columnSelect == 'Order Number') {
       searchPayload = {
@@ -332,17 +320,17 @@ export class TranSelectOrderComponent implements OnInit {
  
    if( this.columnSelect == 'Order Number'){
     this.Api.OrderNumberNext(searchPayload).subscribe(
-      (res: any) => {
+      {next: (res: any) => {
         this.searchAutocompleteList = res.data;
       },
-      (error) => {}
+      error: (error) => {}}
     );
    }else{
     this.Api.NextSuggestedTransactions(searchPayload).subscribe(
-      (res: any) => {
+      {next: (res: any) => {
         this.searchAutocompleteList = res.data;
       },
-      (error) => {}
+      error: (error) => {}}
     );
    }
   }

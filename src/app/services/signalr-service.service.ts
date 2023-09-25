@@ -37,6 +37,5 @@ export class SignalrServiceService {
         this.hubConnection.stop();
       }
     }
-    
-  constructor() { }
+
 }

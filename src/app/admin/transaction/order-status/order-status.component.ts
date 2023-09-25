@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/init/auth.service'; 
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-order-status',
   templateUrl: './order-status.component.html',
-  styleUrls: ['./order-status.component.scss'],
+  styleUrls: [],
 })
 export class OrderStatusComponent implements OnInit {
   orderNoEvent: Event;

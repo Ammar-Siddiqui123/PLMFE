@@ -1,8 +1,7 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ToastrService } from 'ngx-toastr';
 import labels from '../../../../labels/labels.json';
-import { Output, EventEmitter } from '@angular/core';
 import { SharedService } from '../../../../services/shared.service';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { MatSelect } from '@angular/material/select';
@@ -10,9 +9,9 @@ import { MatSelect } from '@angular/material/select';
 @Component({
   selector: 'app-reprocess-choice',
   templateUrl: './reprocess-choice.component.html',
-  styleUrls: ['./reprocess-choice.component.scss']
+  styleUrls: []
 })
-export class ReprocessChoiceComponent implements OnInit {
+export class ReprocessChoiceComponent  {
 
   @Input() reprocessCount: any;
   @Input() isEnabled: any;
@@ -32,36 +31,34 @@ export class ReprocessChoiceComponent implements OnInit {
 
   constructor(private Api: ApiFuntions, private toastr: ToastrService, private sharedService: SharedService) { }
 
-  ngOnInit(): void {
-
-  }
+  
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['ROrder'] && changes['ROrder']?.currentValue) {
+    if (changes['ROrder']?.currentValue) {
       this.ROrder = changes['ROrder'].currentValue;
       console.log(this.ROrder);
     }
-    if (changes['RItem'] && changes['RItem']?.currentValue) {
+    if (changes['RItem']?.currentValue) {
       this.ROrder = changes['RItem'].currentValue;
       console.log(this.RItem);
     }
-    if (changes['selection4'] && changes['selection4']?.currentValue) {
+    if (changes['selection4']?.currentValue) {
       this.selection4 = changes['selection4'].currentValue;
       console.log(this.selection4);
     }
-    if (changes['searchString4'] && changes['searchString4']?.currentValue) {
+    if (changes['searchString4']?.currentValue) {
       this.searchString4 = changes['searchString4'].currentValue;
       console.log(this.searchString4);
     }
   }
 
   postTransaction() {
-    var payload = {
+    let payload = {
       username: this.userData.userName,
       wsid: this.userData.wsid,
     }
     this.Api.PostReprocessTransaction(payload).subscribe(
-      (res: any) => {
+      {next: (res: any) => {
         if (res.data && res.isExecuted) {
           this.isEnabled = true;
           this.clearControls();
@@ -79,7 +76,7 @@ export class ReprocessChoiceComponent implements OnInit {
           this.itemUpdatedEvent.emit(true);
         }
       },
-      (error) => { }
+      error: (error) => { }}
     );
   }
 
@@ -97,7 +94,7 @@ export class ReprocessChoiceComponent implements OnInit {
       this.isReprocessedChecked.flag = false;
     }
 
-    var payload = {
+    let payload = {
       id: this.transactionID,
       reprocess: (this.isReprocessedChecked.flag) ? 1 : 0,
       postComplete: (this.isCompleteChecked.flag) ? 1 : 0,
@@ -107,7 +104,7 @@ export class ReprocessChoiceComponent implements OnInit {
       wsid: this.userData.wsid,
     }
     this.Api.ReprocessIncludeSet(payload).subscribe(
-      (res: any) => {
+      {next: (res: any) => {
         if (res.data && res.isExecuted) {
           this.toastr.success(labels.alert.update, 'Success!', {
             positionClass: 'toast-bottom-right',
@@ -121,7 +118,7 @@ export class ReprocessChoiceComponent implements OnInit {
           });
         }
       },
-      (error) => { }
+      error: (error) => { }}
     );
 
 

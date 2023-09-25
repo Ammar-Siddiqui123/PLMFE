@@ -1,9 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
-import { DeleteConfirmationComponent } from '../../dialogs/delete-confirmation/delete-confirmation.component';
 import { ItemCategoryComponent } from '../../dialogs/item-category/item-category.component';
 import { ItemNumberComponent } from '../../dialogs/item-number/item-number.component';
 import { UnitMeasureComponent } from '../../dialogs/unit-measure/unit-measure.component';

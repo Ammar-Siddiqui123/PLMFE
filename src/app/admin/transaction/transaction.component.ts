@@ -1,7 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { Router, RoutesRecognized } from '@angular/router';
-import { filter, pairwise } from 'rxjs/operators';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap  } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SharedService } from 'src/app/services/shared.service';
@@ -61,7 +59,7 @@ export class TransactionComponent implements OnInit, AfterViewInit {
     this.tabIndex$ = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('tabIndex')),
     );
-    var IsStatus = this.route.queryParamMap.pipe(
+    let IsStatus = this.route.queryParamMap.pipe(
       map((params: ParamMap) => params.get('IsOrderStatus')),
     );
     IsStatus.subscribe((param) => {
