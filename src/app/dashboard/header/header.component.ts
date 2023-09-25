@@ -40,12 +40,9 @@ statusTab;
     private global:GlobalService,
     ) {
       let width=0;
-      let height =0;
       this.breakpointSubscription = this.breakpointObserver.observe([Breakpoints.Small,Breakpoints.Large])
       .subscribe((state: BreakpointState) => {
-           width = window.innerWidth;
-           height = window.innerHeight;
-          
+           width = window.innerWidth;    
       })
       
    this.isConfigUser=  this.authService.isConfigUser()
@@ -145,8 +142,8 @@ statusTab;
   }
   ngOnInit(): void {
     this.loading = false;
-    this.userData = JSON.parse(localStorage.getItem('user') || '{}');
-    this.configUser = JSON.parse(localStorage.getItem('userConfig') || '{}'); 
+    this.userData = JSON.parse(localStorage.getItem('user') ?? '{}');
+    this.configUser = JSON.parse(localStorage.getItem('userConfig') ?? '{}'); 
     if(this.router.url.indexOf('globalconfig') > -1){
       this.ConfigUserLogin =  true;
     }else {
@@ -185,7 +182,7 @@ statusTab;
   breadCrumbClick(menu,index:any = null) { 
     debugger
      if(index != null){ 
-      var Url = "";  
+      let Url = "";  
       for (let i = 0; i <= index; i++) {
         if(this.breadcrumbList[i].menu!='') Url += this.breadcrumbList[i].value; 
       }   
@@ -275,7 +272,7 @@ statusTab;
   }
 
   openPrintSetting(){
-    const dialogRef = this.dialog.open(DPrinterSetupComponent, {
+    this.dialog.open(DPrinterSetupComponent, {
       height: 'auto',
       width: '556px',
       autoFocus: '__non_existing_element__',

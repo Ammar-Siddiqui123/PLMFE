@@ -9,7 +9,7 @@ import { GlobalService } from 'src/app/common/services/global.service';
 @Component({
   selector: 'app-blossom-tote',
   templateUrl: './blossom-tote.component.html',
-  styleUrls: ['./blossom-tote.component.scss']
+  styleUrls: []
 })
 export class BlossomToteComponent implements OnInit {
   @ViewChild('tote_focus') tote_focus: ElementRef;
@@ -52,10 +52,6 @@ export class BlossomToteComponent implements OnInit {
   }
 
   getNextToteId() {
-    let paylaod = {
-      "username": this.userData.userName,
-      "wsid": this.userData.wsid,
-    }
     this.Api.NextTote().subscribe(res => {
       if(res.data){
         this.nxtToteID = res.data;
