@@ -1,5 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { SharedService } from 'src/app/services/shared.service';
 import { AuthService } from '../../../../../app/init/auth.service'; 
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
