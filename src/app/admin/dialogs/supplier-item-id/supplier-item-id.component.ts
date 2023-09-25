@@ -9,7 +9,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-supplier-item-id',
   templateUrl: './supplier-item-id.component.html',
-  styleUrls: ['./supplier-item-id.component.scss'],
+  styleUrls: [],
 })
 export class SupplierItemIdComponent implements OnInit {
   @ViewChild('supplier_id') supplier_id: ElementRef;

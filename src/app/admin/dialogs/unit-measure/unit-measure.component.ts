@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnInit, QueryList, Renderer2, ViewChildren } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { PrintRangeComponent } from '../print-range/print-range.component';
 import { ToastrService } from 'ngx-toastr'; 
 import { AuthService } from '../../../../app/init/auth.service';
 import labels from '../../../labels/labels.json'
@@ -10,7 +9,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-unit-measure',
   templateUrl: './unit-measure.component.html',
-  styleUrls: ['./unit-measure.component.scss']
+  styleUrls: []
 })
 export class UnitMeasureComponent implements OnInit {
   @ViewChildren('unit_name', { read: ElementRef }) unit_name: QueryList<ElementRef>;
@@ -36,7 +35,7 @@ export class UnitMeasureComponent implements OnInit {
       if (res.isExecuted) {
         this.unitOfMeasure_list = res.data;
 
-        for(var i=0;i<this.unitOfMeasure_list.length;i++)
+        for(let i=0;i<this.unitOfMeasure_list.length;i++)
       {
         this.unitOfMeasure_list.fromDB = true;
         this.enableButton.push({index:i,value:true});
@@ -68,13 +67,13 @@ export class UnitMeasureComponent implements OnInit {
     let cond = true;
     if(um){
     this.unitOfMeasure_list.forEach(element => {
-      if(element.toLowerCase() == um.toLowerCase() ) {
+      if(element.toLowerCase() == um.toLowerCase() && cond) {
         cond = false;
        this.toastr.error('Already Exists', 'Error!', {
          positionClass: 'toast-bottom-right',
          timeOut: 2000
        });
-       return;
+       
       }   
     });
   }
