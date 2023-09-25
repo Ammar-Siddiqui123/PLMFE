@@ -236,20 +236,22 @@
                     <div class="col-xl-3">
                         <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
                             <mat-label>From Date</mat-label>
-                            <input matInput (ngModelChange)="this.searchField.next($event)"
-                                formControlName="pickedStart" [matDatepicker]="start">
-                            <mat-datepicker-toggle matSuffix [for]="start" ngDefaultControl></mat-datepicker-toggle>
-                            <mat-datepicker #start></mat-datepicker>
+                                <input matInput type="datetime-local" (ngModelChange)="this.searchField.next($event)" formControlName="pickedStart" id="completionDate" [ngModel] = "localCompleteDate"
+                                placeholder="yyyy-MM-ddTHH:mm" [min]="localCompleteDate" class="form-control"  />
+                            <!-- <mat-datepicker-toggle matSuffix [for]="start" ngDefaultControl></mat-datepicker-toggle> -->
+                            <!-- <mat-datepicker #start></mat-datepicker> -->
                         </mat-form-field>
+
+                        
                     </div>
 
                     <div class="col-xl-3">
                         <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
                             <mat-label>To Date</mat-label>
-                            <input matInput (ngModelChange)="this.searchField.next($event)" formControlName="pickedEnd"
-                                [matDatepicker]="end">
-                            <mat-datepicker-toggle matSuffix [for]="end" ngDefaultControl></mat-datepicker-toggle>
-                            <mat-datepicker #end></mat-datepicker>
+                            <input matInput type="datetime-local" (ngModelChange)="this.searchField.next($event)" formControlName="pickedEnd"  [ngModel] = "localCompleteDate"
+                            placeholder="yyyy-MM-ddTHH:mm" [min]="localCompleteDate">
+                            <!-- <mat-datepicker-toggle matSuffix [for]="end" ngDefaultControl></mat-datepicker-toggle>
+                            <mat-datepicker #end></mat-datepicker> -->
                         </mat-form-field>
                     </div>
 
@@ -262,20 +264,22 @@
                     <div class="col-xl-3">
                         <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
                             <mat-label>From Date</mat-label>
-                            <input matInput (ngModelChange)="this.searchField.next($event)" formControlName="putStart"
-                                [matDatepicker]="start">
-                            <mat-datepicker-toggle matSuffix [for]="start" ngDefaultControl></mat-datepicker-toggle>
-                            <mat-datepicker #start></mat-datepicker>
+                            <input matInput type="datetime-local" (ngModelChange)="this.searchField.next($event)" formControlName="putStart"
+                            [ngModel] = "localCompleteDate"
+                            placeholder="yyyy-MM-ddTHH:mm" [min]="localCompleteDate">
+                            <!-- <mat-datepicker-toggle matSuffix [for]="start" ngDefaultControl></mat-datepicker-toggle>
+                            <mat-datepicker #start></mat-datepicker> -->
                         </mat-form-field>
                     </div>
 
                     <div class="col-xl-3">
                         <mat-form-field class="custom-form-field w-100  mb-3" appearance="outline">
                             <mat-label>To Date</mat-label>
-                            <input matInput (ngModelChange)="this.searchField.next($event)" formControlName="putEnd"
-                                [matDatepicker]="end">
-                            <mat-datepicker-toggle matSuffix [for]="end" ngDefaultControl></mat-datepicker-toggle>
-                            <mat-datepicker #end></mat-datepicker>
+                            <input matInput type="datetime-local" (ngModelChange)="this.searchField.next($event)" formControlName="putEnd"
+                            [ngModel] = "localCompleteDate"
+                            placeholder="yyyy-MM-ddTHH:mm" [min]="localCompleteDate">
+                            <!-- <mat-datepicker-toggle matSuffix [for]="end" ngDefaultControl></mat-datepicker-toggle>
+                            <mat-datepicker #end></mat-datepicker> -->
                         </mat-form-field>
                     </div>
 

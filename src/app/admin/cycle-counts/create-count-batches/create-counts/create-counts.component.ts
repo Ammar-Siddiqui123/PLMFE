@@ -40,6 +40,8 @@ export class CCBCreateCountsComponent implements OnInit {
   selectedTabIndex: number = 0;
   orderNumber;
   countType: string = '';
+  completeDate: Date;
+  localCompleteDate: string;
   warehouse: string = '';
   subCategory: any;
   math = Math;
@@ -142,7 +144,8 @@ export class CCBCreateCountsComponent implements OnInit {
       category: new FormControl(''),
       subCategory: new FormControl({ value: '', disabled: true }),
       notCounted: new FormControl(new Date()),
-      pickedStart: new FormControl(new Date()),
+      pickedStart: new FormControl(new Date())    ,
+      pickedStartTime: new FormControl(new Date()),
       pickedEnd: new FormControl(new Date()),
       putStart: new FormControl(new Date()),
       putEnd: new FormControl(new Date()),
@@ -150,6 +153,32 @@ export class CCBCreateCountsComponent implements OnInit {
       costEnd: new FormControl(''),
       warehouse: new FormControl(''),
     });
+
+    this.completeDate = new Date();
+    const offsetMs = this.completeDate.getTimezoneOffset() * 60 * 1000;
+    const msLocal =  this.completeDate.getTime() - offsetMs;
+    const dateLocal = new Date(msLocal);
+    const iso = dateLocal.toISOString();
+    const isoLocal = iso.slice(0, 19)+".932Z";
+
+    //alert(isoLocal);
+   // this.localCompleteDate = this.completeDate.toISOString();
+
+    //var test = "2023-09-25T19:48:18.932Z" //  2023-09-25T19:39:19.932Z
+    this.localCompleteDate=isoLocal.substring(0, isoLocal.length - 8);
+
+
+    
+    //this.localCompleteDate.substring(0, isoLocal.length - 1)
+    //alert(isoLocal);
+
+
+    //alert(this.localCompleteDate.substring(0, this.localCompleteDate.length - 1));
+
+    //alert(this.localCompleteDate.toLocaleString());
+
+
+    //this.localCompleteDate = this.localCompleteDate.substring(0, this.localCompleteDate.length - 1);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
