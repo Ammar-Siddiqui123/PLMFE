@@ -299,11 +299,11 @@ export class MoveItemsComponent implements OnInit {
       wsid: this.userData.wsid,
     };
     this.Api.SearchItem(searchPayload).subscribe(
-      (res: any) => {
+      {next: (res: any) => {
         this.searchAutocompletItemNo = res.data;
         this.getMoveItemList('MoveFrom');
       },
-      (error) => {}
+      error: (error) => {}}
     );
   }
   searchData(event) {
@@ -906,9 +906,9 @@ export class MoveItemsComponent implements OnInit {
     const inputElement = this.myInput.nativeElement;
     let value = inputElement.value.replace(/\D/g, ''); // Remove non-digit characters
     if (parseInt(value) > 2147483647) {
-      value = value.substr(0, 3);
+      value = value.slice(0, 3);
     } else {
-      value = value.substr(0, 4);
+      value = value.slice(0, 4);
     }
     inputElement.value = value;
   }
