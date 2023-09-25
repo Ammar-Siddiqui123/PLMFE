@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-list-and-label',
   templateUrl: './list-and-label.component.html',
-  styleUrls: ['./list-and-label.component.scss']
+  styleUrls: []
 })
 export class ListAndLabelComponent {
   env:string;
