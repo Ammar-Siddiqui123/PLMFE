@@ -213,13 +213,7 @@ export class ConsolidationComponent implements OnInit {
           }
         });
 
-        if (this.startSelectFilterLabel == 'Item Number') {
-          this.isitemVisible = true;
-          this.issupplyVisible = false;
-          this.displayedColumns_1.shift()
-          this.displayedColumns_1.unshift('itemNumber')
-        }
-        else if (this.startSelectFilterLabel == 'Supplier Item ID') {
+        if (this.startSelectFilterLabel == 'Supplier Item ID') {
           this.isitemVisible = false;
           this.displayedColumns_1.shift()
           this.displayedColumns_1.unshift('supplierItemID')
@@ -610,13 +604,7 @@ export class ConsolidationComponent implements OnInit {
       }
     });
 
-    if (event.value == 1) {
-      this.isitemVisible = true;
-      this.issupplyVisible = false;
-      this.displayedColumns_1.shift()
-      this.displayedColumns_1.unshift('itemNumber')
-    }
-    else if (event.value == 2) {
+    if (event.value == 2) {
       this.isitemVisible = false;
       this.displayedColumns_1.shift()
       this.displayedColumns_1.unshift('supplierItemID')

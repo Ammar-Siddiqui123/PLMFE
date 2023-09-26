@@ -61,20 +61,20 @@ export class CmShippingComponent implements OnInit {
   }
   async ShippingIndex() {  
     if (this.orderNumber != "") {
-      var obj: any = {
+      let obj: any = {
         orderNumber: this.orderNumber,
         userName: this.userData.userName,
         wsid: this.userData.wsid
       }
       this.IsLoading = true;
       this.Api.ShippingIndex(obj).subscribe((res: any) => {
-        if (res && res.isExecuted) {
+        if (res?.isExecuted) {
           this.shippingData = res.data.shippingData;
           this.carriers = res.data.carriers;
           this.shippingPreferences = res.data.shippingPreferences;
           let indx=0;
           for (let key in this.shippingPreferences) { 
-            if(!(this.displayedColumns.indexOf(key) > -1) && this.shippingPreferences[key] == true){
+            if((this.displayedColumns.indexOf(key) <= -1) && this.shippingPreferences[key]){
           this.displayedColumns.splice((3+indx), 0, key);
           indx=indx+1;
             }
@@ -87,11 +87,8 @@ export class CmShippingComponent implements OnInit {
     }
    
   }
-  setNumericInRange(low: number, high: number | null, allowEmpty = false): void {
+  setNumericInRange(low: number, high: number | null): void {
     const element = document.getElementById('input') as HTMLInputElement;
-    if (allowEmpty == undefined) {
-      allowEmpty = false;
-    }
     let value: any = element.value;
     while ((!$.isNumeric(value) && value.length > 0) || (parseInt(value) > high! && high !== null)) {
       value = value.substring(0, value.length - 1);
@@ -103,7 +100,7 @@ export class CmShippingComponent implements OnInit {
   }
 
   async DeleteItem(element: any,i:any=null) {
-    var obj: any =
+    let obj: any =
     {
       id: element.id,
       orderNumber: this.orderNumber,
@@ -114,13 +111,13 @@ export class CmShippingComponent implements OnInit {
       wsid: this.userData.wsid
     }
     this.Api.ShipmentItemDelete(obj).subscribe((res: any) => {
-      if (res && res.isExecuted) {
+      if (res?.isExecuted) {
         this.shippingData = this.shippingData.slice(0,i);
       }
     });
   }
   async updateShipmentItem(element: any) {
-    var obj: any = {
+    let obj: any = {
       id: element.id,
       carrier: element.carrier,
       trackingNum: element.trackingNum,
@@ -149,7 +146,7 @@ export class CmShippingComponent implements OnInit {
   
     dialogRef.afterClosed().subscribe((result) => {
       if (result == 'Yes') { 
-      var obj: any = {
+      let obj: any = {
         orderNumber: this.orderNumber
       }
       this.Api.SelCountOfOpenTransactionsTemp(obj).subscribe((res: any) => {
@@ -174,8 +171,8 @@ export class CmShippingComponent implements OnInit {
             dialogRef.afterClosed().subscribe((result) => {
               if (result == 'Yes') {  
               this.completeShipment();
-            }}); 
-          };
+            }})
+          }
         }
       });
     
@@ -185,13 +182,13 @@ export class CmShippingComponent implements OnInit {
   }
   async completeShipment() {
 
-    var obj: any = {
+    let obj: any = {
       orderNumber: this.orderNumber,
       userName: this.userData.userName,
       wsid: this.userData.wsid
     }
     this.Api.CompleteShipment(obj).subscribe((res: any) => {
-      if (res && res.isExecuted) {
+      if (res?.isExecuted) {
         this.toast.success(`Order Number: ${this.orderNumber} is marked as Shipping Complete`, "Success", { positionClass: 'toast-bottom-right', timeOut: 2000 });
       } else {
         this.toast.error("An error has occurred", "Error", { positionClass: 'toast-bottom-right', timeOut: 2000 });

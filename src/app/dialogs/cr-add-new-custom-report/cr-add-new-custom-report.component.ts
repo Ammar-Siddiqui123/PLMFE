@@ -3,7 +3,6 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { CrEditDesignTestDataComponent } from '../cr-edit-design-test-data/cr-edit-design-test-data.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { ToastrService } from 'ngx-toastr';
-import { ConfirmationDialogComponent } from 'src/app/admin/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { catchError, of } from 'rxjs';
 import { AlertConfirmationComponent } from '../alert-confirmation/alert-confirmation.component';
 import { CrDesignFilenameConfirmationComponent } from '../cr-design-filename-confirmation/cr-design-filename-confirmation.component';
@@ -51,7 +50,7 @@ export class CrAddNewCustomReportComponent implements OnInit {
       disableClose:true,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      this.NewDesignTestData = result?result:this.NewDesignTestData
+      this.NewDesignTestData = result ? result : this.NewDesignTestData
     }
     );
   }
@@ -75,8 +74,8 @@ export class CrAddNewCustomReportComponent implements OnInit {
 
 
 
-  var valid = true;
-  for (var x = 0; x < newParams.length - 1; x++) {
+  let valid = true;
+  for (let x = 0; x < newParams.length - 1; x++) {
       if (newParams[x] == ''||newParams[x] == undefined) {
         this.toastr.error(`${fields[x]} must not be left blank!`, 'Error!', {
           positionClass: 'toast-bottom-right',
@@ -118,12 +117,6 @@ export class CrAddNewCustomReportComponent implements OnInit {
             this.appendstring += `There was an error with the stored procedure or sql string provided.  \
             Please ensure that the procedure contains only valid statements and only returns one result set.\
               If a stored procedure is provided it must contain either no parameters or acceptable defaults.`
-          }
-
-          let  resultSets = res.data.sqlObj.numResultSets;
-          let  resultSetString = ''
-          if (resultSets != 1) {
-            resultSetString = `  Number of result sets found:${resultSets}.  ONE result set must be used.`
           }
           
           if(res.data.sqlObj?.columns.length != 0){
@@ -203,7 +196,7 @@ export class CrAddNewCustomReportComponent implements OnInit {
       dataType:  this.NewDesignDataType,
       outputType:  this.NewOutputType == 'Report' ? 2 : 1,
       exportFilename: this.NewExportFilename,
-      all:all?all:false
+      all: all ? all : false
   };
   this.api.restoreDesign(obj).subscribe(res=>{
     if(!res.data){
@@ -263,10 +256,10 @@ export class CrAddNewCustomReportComponent implements OnInit {
   }
 
   buildAppendString(title, errors) {
-    var appendstring = '';
+    let appendstring = '';
     if (errors.length > 0) {
         appendstring +=  title ;
-        for (var y = 0; y < errors.length; y++) {
+        for (let y = 0; y < errors.length; y++) {
             appendstring +=   errors[y] ;
         };
     };
@@ -279,14 +272,6 @@ validateInputs() {
   });
 }
 
- setNoExtension(element) {
-  var value = element
-  var extensionIndex = value.indexOf('.');
-  if (extensionIndex != -1) {
-      element = value.substring(0, extensionIndex)
-  };
-};
-
   setExtension() {
   if(this.NewFilename.includes('.lst')||this.NewFilename.includes('.lbl')){
     let extensionIndex = this.NewFilename.indexOf('.')
@@ -296,7 +281,7 @@ validateInputs() {
     this.NewFilename = `${this.NewFilename}.lst`
   } else if (this.NewFilename != '' && this.NewOutputType == 'Label') {
       this.NewFilename = `${this.NewFilename}.lbl`
-  };
+  }
 };
 
 
@@ -311,14 +296,13 @@ validateInputs() {
       }
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result) 
-      if(result != true && result == 'this') {
+      if(result == 'this') {
         this.restoreDesign(this.CurrentFilename )
       }   
-      else if(result != true && result == 'all') {
+      else if(result == 'all') {
         this.restoreDesign(this.CurrentFilename,true )
       }
-      else if(result != true && result == 'delete') {
+      else if(result == 'delete') {
         this.DeleteExistingdesign()
       }
     }

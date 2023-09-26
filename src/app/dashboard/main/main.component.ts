@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/init/auth.service';
 import { SharedService } from '../../../app/services/shared.service';
-import { mergeMap, map } from 'rxjs/operators';
-import { forkJoin, of, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { CurrentTabDataService } from 'src/app/admin/inventory-master/current-tab-data-service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -10,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss'],
+  styleUrls: [],
 })
 export class MainComponent implements OnInit {
   tab_hover_color: string = '#cf9bff3d';
@@ -43,7 +42,7 @@ export class MainComponent implements OnInit {
 
     this.userData = this.authService.userData();
     if(localStorage.getItem('isAppVerified') ){
-      this.isDefaultAppVerify =  JSON.parse(localStorage.getItem('isAppVerified') || '');
+      this.isDefaultAppVerify =  JSON.parse(localStorage.getItem('isAppVerified') ?? '');
     }else{
       this.isDefaultAppVerify={appName: "",isVerified:true}
     }
@@ -73,7 +72,7 @@ export class MainComponent implements OnInit {
     };
     this.Api.AppNameByWorkstation(payload).subscribe(
       (res: any) => {
-        if (res && res.data) {
+        if (res?.data) {
           this.convertToObj(res.data);
           localStorage.setItem(
             'availableApps',
@@ -179,7 +178,7 @@ export class MainComponent implements OnInit {
 
   sortAppsData() {
     this.applicationData.sort(function (a, b) {
-      var nameA = a.info.name.toLowerCase(),
+      let nameA = a.info.name.toLowerCase(),
         nameB = b.info.name.toLowerCase();
       if (nameA < nameB)
         //sort string ascending

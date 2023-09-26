@@ -4,7 +4,6 @@ import { ReprocessTransactionDetailViewComponent } from '../reprocess-transactio
 import { ToastrService } from 'ngx-toastr';
 import { UserFieldsComponent } from '../user-fields/user-fields.component';
 import { TotesAddEditComponent } from '../totes-add-edit/totes-add-edit.component';
-import { UserFieldsEditComponent } from '../../../app/admin/dialogs/user-fields-edit/user-fields-edit.component';
 import { Router } from '@angular/router';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
@@ -15,7 +14,7 @@ import { GlobalService } from 'src/app/common/services/global.service';
 @Component({
   selector: 'app-cross-dock-transaction',
   templateUrl: './cross-dock-transaction.component.html',
-  styleUrls: ['./cross-dock-transaction.component.scss']
+  styleUrls: []
 })
 export class CrossDockTransactionComponent implements OnInit {
   @ViewChild('complete_focus') complete_focus: ElementRef;
@@ -279,10 +278,10 @@ export class CrossDockTransactionComponent implements OnInit {
       dialogRef.afterClosed().subscribe((result) => {
       
         if (result == 'Yes') {
-          var payLoad = {
+          let payLoad = {
             "pick": this.data.values.transactionQuantity,
             "put": this.data.values.toteQty,
-            "reel": this.data.values.subCategory == 'reel tracking' ? true : false,
+            "reel": this.data.values.subCategory == 'reel tracking',
             "ser": this.data.values.serialNumber,
             "htid": this.transactions[this.selectedRow].hostTransactionID,
             "rpid": this.transactions[this.selectedRow].id,
@@ -340,7 +339,7 @@ export class CrossDockTransactionComponent implements OnInit {
   }
 
   PrintCrossDock(){
-    var res:any =  this.global.Print(`FileName:autoPrintCrossDock|tote:true|otid:${this.OTRecID}|ZoneLabel:${this.zone}`);
+    let res:any =  this.global.Print(`FileName:autoPrintCrossDock|tote:true|otid:${this.OTRecID}|ZoneLabel:${this.zone}`);
      
         if(res){
       this.showConfirmationDialog('Click OK if the tote label printed correctly.',(open)=>{
@@ -355,21 +354,19 @@ export class CrossDockTransactionComponent implements OnInit {
 
 
    PrintCrossDockForLbl(){
-   var res:any =  this.global.Print(`FileName:autoPrintCrossDock|tote:false|otid:${this.OTRecID}|ZoneLabel:${this.zone}`);
-    
-     if(res){
-    this.showConfirmationDialog('Click OK if the item label printed correctly.',(open)=>{
+   let res:any =  this.global.Print(`FileName:autoPrintCrossDock|tote:false|otid:${this.OTRecID}|ZoneLabel:${this.zone}`);
+    if(res){
+      this.showConfirmationDialog('Click OK if the item label printed correctly.',(open)=>{
       if(!open){
-      this.PrintCrossDockForLbl();
+        this.PrintCrossDockForLbl();
       }else{
         this.toastr.success('Pick Completed Successfully', 'Success!', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000,
         });
-       return
       }
-    });
-      } 
+      });
+    } 
   }
 
   async showConfirmationDialog(message,callback) {

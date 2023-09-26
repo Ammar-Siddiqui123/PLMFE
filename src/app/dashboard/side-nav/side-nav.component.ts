@@ -2,8 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from '../../../app/services/shared.service';
 import { AuthService } from '../../../app/init/auth.service';
-import { of, from } from 'rxjs';
-import { mergeMap, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http'; 
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 import { CurrentTabDataService } from 'src/app/admin/inventory-master/current-tab-data-service';
@@ -16,7 +14,7 @@ import { GlobalService } from 'src/app/common/services/global.service';
 })
 export class SideNavComponent implements OnInit {
   menuData: any=[];
-  @Input() sideBarOpen: Boolean;
+  @Input() sideBarOpen: boolean;
   isConfigUser:any = false;
   menuRoute;
   public userData: any;
@@ -127,7 +125,7 @@ export class SideNavComponent implements OnInit {
                   this.isMenuHide = menu;   
                 });
                 this.sharedService?.SidebarMenupdate?.subscribe((data: any) => {
-                  var Menuobj = this.menus.find(x=>x.route == data);
+                  let Menuobj = this.menus.find(x=>x.route == data);
                   if(Menuobj==null&&this.authService.UserPermissonByFuncName('Admin Menu')) Menuobj = this.adminMenus.find(x=>x.route == data);
                   this.loadMenus(Menuobj);
                 });
@@ -263,12 +261,7 @@ redirect(){
   async getAppLicense() {
 
     this.Api.AppLicense().subscribe(
-      (res: any) => {
-        if (res && res.data) {
-          
-          
-        }
-      },
+      (res: any) => {},
       (error) => {}
     );
   }
@@ -382,7 +375,6 @@ redirect(){
       this.childMenus = this.flowrackReplenishmentMenus;
       this.isParentMenu = false;
       this.isChildMenu = true;
-      return
     } 
   }
 
