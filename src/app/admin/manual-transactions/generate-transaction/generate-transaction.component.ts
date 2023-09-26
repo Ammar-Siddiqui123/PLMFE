@@ -295,7 +295,7 @@ export class GenerateTransactionComponent implements OnInit {
     
           if (res) {
             let payload = {
-              deleteTransaction: type === 'save' ? false : true,
+              deleteTransaction: type !== 'save',
               transactionID: this.transactionID,
               username: this.userData.userName,
               wsid: this.userData.wsid,
@@ -635,7 +635,7 @@ export class GenerateTransactionComponent implements OnInit {
 
 
       if (res.isExecuted) {
-        this.isLocation=res.location!=undefined?true:false;
+        this.isLocation= res.location != undefined;
         this.orderNumber = res.orderNumber;
         this.itemNumber = res.itemNumber;
         this.getRow(res);
