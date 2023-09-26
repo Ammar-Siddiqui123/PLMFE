@@ -49,13 +49,11 @@ export class CurrentTabDataService {
         this.setPreviousUrl('selectedTab_'+currentTab);
         return false; // No redirect to dashboard.
       }
-      else {
-        if (currentTab !== previousTab) {
-          console.log("MultiTabs | Removed: "+previousTab);
-          this.RemoveTabOnRoute(previousTab);
-          console.log("MultiTabs | Set: "+'selectedTab_'+currentTab);
-          localStorage.setItem('selectedTab_'+currentTab, currentTab);	
-        }
+      else if (currentTab !== previousTab) {
+        console.log("MultiTabs | Removed: "+previousTab);
+        this.RemoveTabOnRoute(previousTab);
+        console.log("MultiTabs | Set: "+'selectedTab_'+currentTab);
+        localStorage.setItem('selectedTab_'+currentTab, currentTab);	
       }
       return true;
     }

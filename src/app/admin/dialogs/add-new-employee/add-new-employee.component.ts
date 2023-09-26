@@ -130,7 +130,7 @@ ChangePassword(data){
       
       if (this.data?.mode === 'edit') {
         form.value.wsid = "TESTWID"; 
-        form.value.username = this.data && this.data.emp_data && this.data.emp_data.username?this.data.emp_data.username:this.data.emp_data.Username;
+        form.value.username = this.data?.emp_data?.username ? this.data.emp_data.username : this.data.emp_data.Username;
         if(this.groupChanged){
           let requpdateAccessGroup = await this.employeeService.updateAccessGroup({"group": this.empForm.value.groupName,"Username" : this.username}).toPromise();
           if(requpdateAccessGroup.isExecuted){
