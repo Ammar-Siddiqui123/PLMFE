@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FrNumpadComponent } from '../../dialogs/fr-numpad/fr-numpad.component'; 
 import { AuthService } from '../../init/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { Subject } from 'rxjs';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete'; 
 import { SharedService } from '../../services/shared.service';
 import { ApiFuntions } from '../../services/ApiFuntions';
@@ -243,7 +243,7 @@ export class FrFlowrackReplenishmentComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => { 
       this.itemQty = !result ? '' : result;
-      this.submitBtnDisplay = !this.itemQty ? true : false;
+      this.submitBtnDisplay = !this.itemQty;
       this.autocompleteTrigger.closePanel()
       setTimeout(() => {
         this.itemQtyFocus.nativeElement.focus();
@@ -351,7 +351,7 @@ export class FrFlowrackReplenishmentComponent implements OnInit {
       .AppNameByWorkstation(payload)
       .subscribe(
         (res: any) => {
-          if (res && res.data) {
+          if (res?.data) {
             this.convertToObj(res.data);
             localStorage.setItem('availableApps',JSON.stringify(this.applicationData)) 
             this.sharedService.setMenuData(this.applicationData)
@@ -455,7 +455,7 @@ export class FrFlowrackReplenishmentComponent implements OnInit {
 
   sortAppsData() {
     this.applicationData.sort(function (a, b) {
-      var nameA = a.info.name.toLowerCase(),
+      let nameA = a.info.name.toLowerCase(),
         nameB = b.info.name.toLowerCase();
       if (nameA < nameB)
         //sort string ascending

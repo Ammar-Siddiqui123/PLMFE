@@ -4,7 +4,6 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertConfirmationComponent } from 'src/app/dialogs/alert-confirmation/alert-confirmation.component';
-import labels from './../../labels/labels.json';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-pallet-receiving',

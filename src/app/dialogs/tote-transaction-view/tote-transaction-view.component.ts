@@ -121,7 +121,7 @@ export class ToteTransactionViewComponent implements OnInit {
 
     this.Api.TransTableView(payLoad).subscribe((res:any)=>{
       
-      if(res && res.data){
+      if(res?.data){
         this.isData=true
 
       this.dataSource = new MatTableDataSource<any>(res.data);
@@ -248,7 +248,7 @@ export class ToteTransactionViewComponent implements OnInit {
         }
         let baseUrl=type==='clear'?'/Induction/ClearItemFromTote':'/Induction/DeAllocateItemFromTote'
         this.Api.DynamicMethod(payLoad,baseUrl).subscribe((res:any)=>{
-          if (res && res.isExecuted) {
+          if (res?.isExecuted) {
             this.toastr.success(labels.alert.success, 'Success!', {
               positionClass: 'toast-bottom-right',
               timeOut: 2000,

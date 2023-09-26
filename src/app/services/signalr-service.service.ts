@@ -9,7 +9,7 @@ import {environment} from '../../environments/environment';
 })
 export class SignalrServiceService {
   private hubConnection: signalR.HubConnection
-  connectionEstablished = new Subject<Boolean>();
+  connectionEstablished = new Subject<boolean>();
   ConnectedUsers = new Subject<ConnectedUsers>();
   connect() {
     if (!this.hubConnection) {

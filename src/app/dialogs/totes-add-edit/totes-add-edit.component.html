@@ -27,9 +27,9 @@
         <mat-label>From Tote ID</mat-label>
         <input #field_focus type="text" placeholder="Search" aria-label="Number" matInput maxlength="255"
           [(ngModel)]='fromTote' [matAutocomplete]="auto"
-          (keyup)="autocompleteSearchColumn()"  (keyup.enter)="searchData()"  >
+          (keyup)="autocompleteSearchColumn()"    >
           <button matSuffix *ngIf="fromTote" class="clear-btn"  (click)="fromTote=''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()" #autocompleteInventory>
+        <mat-autocomplete #auto="matAutocomplete"  #autocompleteInventory>
           <h6 class="card-header matAutoCompHeader  "><span style="margin-left:5%;width:  140px;">Tote ID</span><span style="width: 43%;" >Cells</span> </h6>
   
           <mat-option *ngFor="let option of searchAutocompleteList"
@@ -51,9 +51,9 @@
         <mat-label>To Tote ID</mat-label>
         <input type="text" placeholder="Search" aria-label="Number" matInput maxlength="255"
           [(ngModel)]='toTote' [matAutocomplete]="auto" [disabled]="!fromTote"
-          (keyup)="autocompleteSearchColumn()"  (keyup.enter)="searchData()"  >
+          (keyup)="autocompleteSearchColumn()"   >
           <button matSuffix *ngIf="toTote" class="clear-btn"  (click)="toTote=''"><mat-icon class="text-20 text-chrome-600">cancel</mat-icon></button>
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchData()" #autocompleteInventory>
+          <mat-autocomplete #auto="matAutocomplete"  #autocompleteInventory>
             <h6 class="card-header matAutoCompHeader stickyHeader "><span style="margin-left:5%;width:  140px;">Tote ID</span><span style="width: 43%;" >Cells</span> </h6>
     
             <mat-option *ngFor="let option of searchAutocompleteList"

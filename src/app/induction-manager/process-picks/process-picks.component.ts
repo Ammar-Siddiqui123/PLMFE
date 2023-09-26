@@ -834,7 +834,6 @@ async  printPickLabels(row) {
       newWindow = window.open(`/#/report-view?file=${url}`, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');
       if (!newWindow) { // Check if popup was blocked
         reject(new Error('Popup was blocked by the browser.'));
-        return; // Exit the function
       }
       else if (newWindow) {
         windowCheckInterval = setInterval(() => {

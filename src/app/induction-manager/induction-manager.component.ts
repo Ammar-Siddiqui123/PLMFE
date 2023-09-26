@@ -8,7 +8,7 @@ import { ApiFuntions } from '../services/ApiFuntions';
 @Component({
   selector: 'app-induction-manager',
   templateUrl: './induction-manager.component.html',
-  styleUrls: ['./induction-manager.component.scss']
+  styleUrls: []
 })
 export class InductionManagerComponent implements OnInit {
   tab_hover_color:string = '#cf9bff3d';
