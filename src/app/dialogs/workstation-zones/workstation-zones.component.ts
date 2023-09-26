@@ -13,7 +13,7 @@ import { MatAutocomplete } from '@angular/material/autocomplete';
 @Component({
   selector: 'app-workstation-zones',
   templateUrl: './workstation-zones.component.html',
-  styleUrls: ['./workstation-zones.component.scss']
+  styleUrls: []
 })
 export class WorkstationZonesComponent implements OnInit {
   @ViewChild('field_focus') field_focus: ElementRef;

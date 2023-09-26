@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import {
   MatDialog,
   MAT_DIALOG_DATA,
@@ -7,13 +7,12 @@ import {
 } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/init/auth.service';
-import labels from '../../labels/labels.json';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-user-fields',
   templateUrl: './user-fields.component.html',
-  styleUrls: ['./user-fields.component.scss']
+  styleUrls: []
 })
 export class UserFieldsComponent implements OnInit {
   @ViewChild('field_focus') field_focus: ElementRef;

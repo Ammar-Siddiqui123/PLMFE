@@ -223,7 +223,7 @@ export class AdminPrefrencesComponent implements OnInit {
 
   getPreferences() {
     try {
-      let payload = { wsid: this.userData.wsid };
+      
       this.Api
         .PreferenceIndex()
         .subscribe(
@@ -471,9 +471,7 @@ export class AdminPrefrencesComponent implements OnInit {
     }
   }
   getCompName() {
-    let payload = {
-      WSID: this.userData.wsid,
-    };
+    
     this.Api.CompName().subscribe(
       (res: any) => {
         if (res.data && res.isExecuted) {

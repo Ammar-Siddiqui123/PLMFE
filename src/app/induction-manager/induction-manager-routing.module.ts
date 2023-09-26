@@ -15,7 +15,6 @@ import { ManualTransactionsComponent } from '../admin/manual-transactions/manual
 import { PalletReceivingComponent } from './pallet-receiving/pallet-receiving.component';
 import { MarkEmptyReelsComponent } from './mark-empty-reels/mark-empty-reels.component';
 import { ToteTransactionManagerComponent } from './tote-transaction-manager/tote-transaction-manager.component';
-import { ImToteManagerComponent } from './im-tote-manager/im-tote-manager.component';
 import { TotesAddEditComponent } from '../dialogs/totes-add-edit/totes-add-edit.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CompletePickBatchComponent } from './complete-pick-batch/complete-pick-batch.component';

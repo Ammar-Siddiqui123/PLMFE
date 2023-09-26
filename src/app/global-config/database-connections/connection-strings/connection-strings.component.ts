@@ -1,18 +1,17 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input,  SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { DeleteConfirmationComponent } from 'src/app/admin/dialogs/delete-confirmation/delete-confirmation.component';
 import { IConnectionString } from 'src/app/interface/transaction'; 
-import { Output, EventEmitter } from '@angular/core';
 import { GlobalConfigSetSqlComponent } from 'src/app/admin/dialogs/global-config-set-sql/global-config-set-sql.component';
 import { ApiFuntions } from 'src/app/services/ApiFuntions';
 
 @Component({
   selector: 'app-connection-strings',
   templateUrl: './connection-strings.component.html',
-  styleUrls: ['./connection-strings.component.scss'],
+  styleUrls: [],
 })
-export class ConnectionStringsComponent implements OnInit {
+export class ConnectionStringsComponent {
   @Input() connectionStringData: IConnectionString[] = [];
   @Output() connectionUpdateEvent = new EventEmitter<string>();
   isAddedNewRow = false;
@@ -24,11 +23,10 @@ export class ConnectionStringsComponent implements OnInit {
     private dialog: MatDialog,
   ) {}
 
-  ngOnInit(): void {}
+ 
   ngOnChanges(changes: SimpleChanges) {
     if (
-      changes['connectionStringData'] &&
-      changes['connectionStringData']['currentValue'] &&
+      
       changes['connectionStringData']['currentValue']['connectionString']
     )
       this.connectionStringData =
@@ -178,7 +176,7 @@ export class ConnectionStringsComponent implements OnInit {
               },
             });
             dialogRef.afterClosed().subscribe((res) => {
-              if (res && res.isExecuted) {
+              if (res?.isExecuted) {
                 this.connectionUpdateEvent.emit(res.isExecuted);
               }
             });

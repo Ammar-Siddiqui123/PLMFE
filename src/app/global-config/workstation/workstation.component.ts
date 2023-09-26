@@ -320,7 +320,7 @@ export class WorkstationComponent implements OnInit {
   }
   clearDefaultApp() {
     this.licAppObj.map((itm) => {
-      if (itm.defaultApp == true) {
+      if (itm.defaultApp) {
         this.appName = itm.appName;
       }
       itm.defaultApp = false;

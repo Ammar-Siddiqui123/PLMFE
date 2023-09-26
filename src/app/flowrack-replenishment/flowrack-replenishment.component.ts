@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SharedService } from '../services/shared.service';
 import { AuthService } from '../init/auth.service';
 
@@ -9,15 +9,13 @@ import { AuthService } from '../init/auth.service';
 })
 
 
-export class FlowrackReplenishmentComponent implements OnInit {
+export class FlowrackReplenishmentComponent {
 
   tab_hover_color:string = '#cf9bff3d';
 
   constructor(private sharedService: SharedService,
               public authService: AuthService,) { }
 
-  ngOnInit(): void {
-  }
 
   updateMenu(menu = '', route = ''){   
     this.sharedService.updateInductionAdminMenu({menu , route});

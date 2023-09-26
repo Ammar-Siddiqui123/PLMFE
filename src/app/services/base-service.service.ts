@@ -58,11 +58,7 @@ export class BaseService {
             headers: this.GetHeaders(),
           });
     }
-    public Update(endPoint: string,reqPaylaod: any) { 
-        return this.http.put<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, {
-            headers: this.GetHeaders(),
-          });
-    }
+    
     public Delete(endPoint: string,reqPaylaod: any = null) {
       let queryParams = new HttpParams();
       for(let key in reqPaylaod){
@@ -74,11 +70,7 @@ export class BaseService {
             params:queryParams
           });
     } 
-    public update(reqPaylaod: any, endPoint: string) { 
-        return this.http.put<any>(`${environment.apiUrl}${endPoint}`, reqPaylaod, {
-            headers: this.GetHeaders(),
-          });
-    } 
+    
     token:string;
   private GetHeaders(): HttpHeaders {
     let httpHeaders = new HttpHeaders();

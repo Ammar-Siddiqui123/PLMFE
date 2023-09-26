@@ -404,12 +404,8 @@ export class OmOrderManagerComponent implements OnInit {
         this.router.navigateByUrl(`/OrderManager/OrderStatus?orderStatus=${this.value1 ? this.value1 : ''}`);
       } 
       else {
-        if (!fromTable){
-          this.router.navigateByUrl(`/OrderManager/OrderStatus?orderStatus=${this.value1 ? this.value1 : ''}`);
-        } 
-        else{
+        
           this.router.navigateByUrl(`/OrderManager/OrderStatus?orderStatus=${ele.orderNumber ? ele.orderNumber : ''}`);
-        } 
       } 
     }
   }
@@ -423,12 +419,12 @@ export class OmOrderManagerComponent implements OnInit {
       this.toastr.error("This orders you are viewing have already been released.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
       return
     }
-    if (this.OMIndex.preferences[0].allowInProc == false) {
+    if (!this.OMIndex.preferences[0].allowInProc) {
       this.toastr.error("You may not release an Order that is already in progress.", 'Error!', { positionClass: 'toast-bottom-right', timeOut: 2000 });
       return
     }
 
-    if (this.OMIndex.preferences[0].allowPartRel == false && this.totalRecords > -1 || this.FilterString != '1 = 1') {      
+    if (!this.OMIndex.preferences[0].allowPartRel && this.totalRecords > -1 || this.FilterString != '1 = 1') {      
 
       let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         height: 'auto',
