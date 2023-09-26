@@ -12,7 +12,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-delete-range',
   templateUrl: './delete-range.component.html',
-  styleUrls: ['./delete-range.component.scss']
+  styleUrls: []
 })
 export class DeleteRangeComponent implements OnInit {
   @ViewChild('del_focus') del_focus: ElementRef;
@@ -111,11 +111,11 @@ export class DeleteRangeComponent implements OnInit {
   }
 
   getFloatLabelValueStart(): FloatLabelType {
-    return this.floatLabelControlStart.value || 'auto';
+    return this.floatLabelControlStart.value ?? 'auto';
   }
 
   getFloatLabelValueEnd(): FloatLabelType {
-    return this.floatLabelControlEnd.value || 'auto';
+    return this.floatLabelControlEnd.value ?? 'auto';
   }
 
   changeBegin(event: any) {

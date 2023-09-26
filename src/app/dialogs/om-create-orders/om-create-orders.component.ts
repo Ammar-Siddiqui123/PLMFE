@@ -364,7 +364,7 @@ export class OmCreateOrdersComponent implements OnInit {
           this.orderNumberSearchList = res.data.sort();
         }
       });
-      if(searchData == true){
+      if(searchData){
         this.createOrdersDT();
       }
     }
