@@ -27,7 +27,7 @@ export class ShortTransactionComponent implements OnInit {
   ) { }
 
   restrictKeyboard(event: KeyboardEvent) {
-    const isNumericInput = /^\d$/.exec(event.key);
+    const isNumericInput = event.key.match(/^[0-9]+$/);
     if (!isNumericInput && event.key !== "Backspace") {
       event.preventDefault();
     }
