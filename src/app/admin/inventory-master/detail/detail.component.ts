@@ -20,7 +20,7 @@ import { CurrentTabDataService } from '../current-tab-data-service';
 })
 export class DetailComponent implements OnInit {
   private eventsSubscription: Subscription;
-  @Input() events: Observable<String>;
+  @Input() events: Observable<string>;
   @Input() fieldNameDetails: any;
   @Input() details: FormGroup;  
   public userData: any;
@@ -149,14 +149,14 @@ export class DetailComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(result => {
-        if(result.category!='' && result!=true)
-       { 
+      if(result.category!='' && result)
+      { 
         this.details.patchValue({        
           'category': result.category      
         });
       }
-        if(result.subCategory!='' && result!=true)
-        {
+      if(result.subCategory!='' && result)
+      {
         this.details.patchValue({            
           'subCategory': result.subCategory,        
         });
@@ -189,9 +189,7 @@ export class DetailComponent implements OnInit {
 
 
  RedirectInv(type){
-
-
-  if(this.setVal == true){
+  if(this.setVal){
     this.router.navigate([]).then((result) => {
       let url = '/#/OrderManager/OrderStatus?itemNumber=' + this.details.controls['itemNumber'].value + '&type='+ type.toString().replace(/\+/gi, '%2B');
       window.open(url, '_blank');
