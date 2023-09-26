@@ -9,7 +9,7 @@ import { GlobalService } from 'src/app/common/services/global.service';
 @Component({
   selector: 'app-short-transaction',
   templateUrl: './short-transaction.component.html',
-  styleUrls: ['./short-transaction.component.scss']
+  styleUrls: []
 })
 export class ShortTransactionComponent implements OnInit {
 
@@ -27,7 +27,7 @@ export class ShortTransactionComponent implements OnInit {
   ) { }
 
   restrictKeyboard(event: KeyboardEvent) {
-    const isNumericInput = event.key.match(/^[0-9]+$/);
+    const isNumericInput = /^\d$/.exec(event.key);
     if (!isNumericInput && event.key !== "Backspace") {
       event.preventDefault();
     }

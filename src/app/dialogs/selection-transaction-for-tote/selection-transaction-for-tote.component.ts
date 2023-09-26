@@ -8,7 +8,7 @@ import { ApiFuntions } from 'src/app/services/ApiFuntions';
 @Component({
   selector: 'app-selection-transaction-for-tote',
   templateUrl: './selection-transaction-for-tote.component.html',
-  styleUrls: ['./selection-transaction-for-tote.component.scss']
+  styleUrls: []
 })
 export class SelectionTransactionForToteComponent implements OnInit {
   public userData;
@@ -38,8 +38,8 @@ export class SelectionTransactionForToteComponent implements OnInit {
     this.userName   =  this.data.userName;
     this.wsid       =  this.data.wsid;
     this.zone       =  this.data.zones;
-    this.batchID    =  this.data.batchID,
-    this.fieldNames    =  this.data.propFields
+    this.batchID    =  this.data.batchID;
+    this.fieldNames    =  this.data.propFields;
     this.getTransactions();
   }
 
