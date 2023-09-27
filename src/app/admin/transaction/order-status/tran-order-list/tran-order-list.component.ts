@@ -722,6 +722,18 @@ export class TranOrderListComponent implements OnInit, AfterViewInit {
   }
 
 
+  ShippingCompleteDialog() {
+    const dialogRef = this.dialog.open(ShippingCompleteDialogComponent,{
+      height: 'auto',
+      width: '100vw',
+      autoFocus: '__non_existing_element__',
+      disableClose:true,
+      data: {
+        orderNumber: this.orderNo,
+      },
+    });
+
+  }
 
   printReport(){
     this.global.Print(`FileName:printOSReport|OrderNum:${this.orderNo}|ToteID:|Identifier:0`)
