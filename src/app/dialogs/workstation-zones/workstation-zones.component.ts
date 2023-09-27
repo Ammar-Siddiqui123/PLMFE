@@ -32,24 +32,33 @@ export class WorkstationZonesComponent implements OnInit {
   zoneSelectOptions: any[] = [];
   onSearchSelect(e: any) {
     this.selectedZone = e.option.value;
-    this.saveVlCode();
+    if(this.validateZone()){
+      this.saveVlCode();
+    }
   }
+
+  validateZone(){
+    if(this.velocity_code_list.filter((x:any) => x.zone.toLowerCase() == this.selectedZone.trim().toLowerCase()).length > 0){
+      this.toastr.error("This Zone is already selected for this workstation", 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return false;
+    }
+    if(this.zones.filter((x:any) => x == this.selectedZone).length == 0){
+      this.toastr.error("This zone does not exist", 'Error!', {
+        positionClass: 'toast-bottom-right',
+        timeOut: 2000
+      });
+      return false;
+    }
+    return true;
+  }
+
   searchItem(event:any) {
     if (this.selectedZone.trim() != '') {
       if(event.key == "Enter"){
-        if(this.velocity_code_list.filter((x:any) => x.zone.toLowerCase() == this.selectedZone.trim().toLowerCase()).length > 0){
-          this.toastr.error("This Zone is already selected for this workstation", 'Error!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
-        }
-        else if(this.zones.filter((x:any) => x == this.selectedZone).length == 0){
-          this.toastr.error("This zone does not exist", 'Error!', {
-            positionClass: 'toast-bottom-right',
-            timeOut: 2000
-          });
-        }
-        else{
+        if(this.validateZone()){
           this.saveVlCode();
         }
       }
