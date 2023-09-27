@@ -146,6 +146,7 @@ export class ReprocessChoiceComponent  {
             positionClass: 'toast-bottom-right',
             timeOut: 2000
           });
+          this.itemUpdatedEvent.emit(true);
         } else {
           this.toastr.error('There was an error marking the designated reprocess records', 'Error', {
             positionClass: 'toast-bottom-right',
