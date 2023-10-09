@@ -11,22 +11,22 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: LogixProFE-dev
+  name: logixprofedev
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: LogixProFE-dev
+      app: logixprofedev
   template:
     metadata:
       labels:
-        app: LogixProFE-dev
+        app: logixprofedev
     spec:
       nodeSelector:
         kubernetes.io/os: linux
       containers:
-        - name: LogixProFE-dev
+        - name: logixprofedev
           image: plmmodernization.azurecr.io/LogixProFE-dev:latest
           ports:
             - containerPort: 80
@@ -58,4 +58,4 @@ spec:
       port: 443
       protocol: TCP
   selector:
-    app: LogixProFE-dev
+    app: logixprofedev
