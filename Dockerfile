@@ -1,9 +1,10 @@
 # Stage 1: Build the Angular application
 FROM node:latest as node
 WORKDIR /app
-COPY package.json package-lock.json 
+COPY package.json package-lock.json ./
+RUN npm install -g @angular/cli && npm install
 COPY . .
-RUN npm run build
+RUN ng build --prod
 
 # Stage 2: Serve the application with Nginx
 FROM nginx:alpine
