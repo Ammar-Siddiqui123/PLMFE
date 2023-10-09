@@ -1,15 +1,8 @@
 #stage 1
 FROM node:latest as node
 WORKDIR /app
-
-RUN npm install -g @angular/cli@15
-
-COPY package.json package-lock.json ./
-
-RUN npm install
-
 COPY . .
-
+RUN npm install
 RUN npm run build
 #stage 2
 FROM nginx:alpine
